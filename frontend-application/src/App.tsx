@@ -1,8 +1,10 @@
 import * as React from "react";
 import { Route, Routes } from "react-router-dom";
-import { Home, SaleDetails, SearchResults } from "./pages";
+
 import { MainLayout } from "./layout/MainLayout";
 import { UserContext } from "./context/UserContext";
+import { FavouriteProvider } from "./context/FavouriteContext";
+import { FavouritePage, Home, SaleDetails, SearchResults } from "./pages";
 
 export const App: React.FC = () => {
   const [userId, setUserId] = React.useState<string>(
@@ -15,14 +17,17 @@ export const App: React.FC = () => {
 
   return (
     <UserContext.Provider value={{ userId, setUserId: handleSetUserId }}>
+      <FavouriteProvider>
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/sale/:id" element={<SaleDetails />} />
           <Route path="/search/:query" element={<SearchResults />} />
           <Route path="/search" element={<SearchResults />} />
+          <Route path="/favourite/:id" element={<FavouritePage userId={userId}/>} />
         </Route>
       </Routes>
+      </FavouriteProvider>
     </UserContext.Provider>
   );
 };
