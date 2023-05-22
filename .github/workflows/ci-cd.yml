@@ -21,7 +21,7 @@ jobs:
       - name: Build Discovery Service
         run: |
           ls -la # Print the current directory contents for debugging purposes
-          cd backend-application/discovery-server && mvn clean install
+          cd backend-application/discovery-service && mvn clean install
         working-directory: ./  # Specify the root directory if the workflow is executed in a different location
 
 
