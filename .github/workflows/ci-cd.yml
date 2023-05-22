@@ -17,6 +17,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        
+      - name: Build Discovery Service
+        run: |
+          ls -la # Print the current directory contents for debugging purposes
+          cd discovery-server && mvn clean install
+        working-directory: ./  # Specify the root directory if the workflow is executed in a different location
+
 
       - name: Set up JDK 17
         uses: actions/setup-java@v2
@@ -32,7 +39,7 @@ jobs:
           job-status: 'success'
 
       - name: Build Discovery Service
-        run: cd discovery-server && mvn clean install
+        run: cd discovery-service && mvn clean install
 
   build-cloud-gateway-service:
     runs-on: ubuntu-latest
