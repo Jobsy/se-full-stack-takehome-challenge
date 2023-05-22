@@ -12,6 +12,7 @@ on:
 
 jobs:
   build-discovery-service:
+    needs: [start-zipkin]
     runs-on: ubuntu-latest
 
     steps:
@@ -35,6 +36,7 @@ jobs:
         run: cd backend-application/discovery-service && mvn clean install
 
   build-cloud-gateway-service:
+    needs: [start-zipkin, build-discovery-service]
     runs-on: ubuntu-latest
 
     steps:
@@ -58,6 +60,7 @@ jobs:
         run: cd backend-application/cloud-gateway-service && mvn clean install
 
   build-favourite-service:
+    needs: [start-mysql-favourite-db, start-zipkin, build-discovery-service, build-cloud-gateway-service]
     runs-on: ubuntu-latest
 
     steps:
@@ -78,7 +81,27 @@ jobs:
           job-status: 'success'
 
       - name: Build Favourite Service
-        run: cd backend-application/favourite && mvn clean install
+        run: cd backend-application/favourite-service && mvn clean install
+      
+  start-zipkin:
+    runs-on: ubuntu-latest
+    container:
+      image: openzipkin/zipkin
+      ports:
+        - 9414:9411
+    timeout-minutes: 5
+    
+  start-mysql-favourite-db:
+    runs-on: ubuntu-latest
+    container:
+      image: mysql:8
+      env:
+        MYSQL_ROOT_PASSWORD: password
+        MYSQL_DATABASE: favourite
+      ports:
+        - 33064:3306
+      options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    timeout-minutes: 5
 
   push-to-docker-hub:
     needs: [build-discovery-service, build-cloud-gateway-service, build-favourite-service]
@@ -92,7 +115,7 @@ jobs:
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          password: ${{ secrets.DOCKERHUB_TOKE }}
 
       - name: Build and push Docker images
         run: |
