@@ -1,0 +1,79 @@
+
+version: "3"
+services:
+  discovery-service:
+    container_name: discovery-service
+    build: ./discovery-server
+    networks:
+      - secretescape-net
+    ports:
+      - "8761:8761"
+    expose:
+      - "8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - zipkin
+
+  cloud-gateway-service:
+    container_name: cloud-gateway-service
+    build: ./cloud-gateway-service
+    networks:
+      - secretescape-net
+    ports:
+      - "8181:8080"
+    expose:
+      - "8181"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - zipkin
+      - discovery-service
+
+  favourite-service:
+    container_name: favourite-service
+    build: ./favourite
+    networks:
+      - secretescape-net
+    ports:
+      - "8082:8082"
+    expose:
+      - "8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - MYSQL_HOST=mysql-favourite-db
+      - MYSQL_PORT=3306
+    depends_on:
+      - mysql-favourite-db
+      - zipkin
+      - discovery-service
+      - cloud-gateway-service
+
+  zipkin:
+    container_name: zipkin
+    image: openzipkin/zipkin
+    networks:
+      - secretescape-net
+    ports:
+      - "9411:9411"
+
+  mysql-favourite-db:
+    container_name: mysql-favourite-db
+    image: mysql:8
+    networks:
+      - secretescape-net
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=favourite
+    ports:
+      - "33061:3306"
+    expose:
+      - "33061"
+    volumes:
+      - mysql_data:/var/lib/mysql # persist the database on server restart
+
+volumes:
+  mysql_data:
+
+networks:
+  secretescape-net:
