@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Outlet } from "react-router-dom";
-import { LoginButton } from "../components";
+
 import {
   ContentContainer,
   FlexWrapper,
@@ -8,6 +8,7 @@ import {
   Logo,
   StyledLink,
 } from "./MainLayout.styles";
+import { LoginButton } from "../components";
 
 export const MainLayout: React.FC = (props) => {
   return (
@@ -30,6 +31,9 @@ export const MainLayout: React.FC = (props) => {
             </li>
             <li>
               <StyledLink to="/search/Berlin">Berlin</StyledLink>
+            </li>
+            <li>
+              <StyledLink to="/favourite/my-favourite">My Favourites</StyledLink>
             </li>
           </ul>
         </ContentContainer>
