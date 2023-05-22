@@ -82,26 +82,21 @@ jobs:
 
       - name: Build Favourite Service
         run: cd backend-application/favourite-service && mvn clean install
-      
+    
   start-zipkin:
     runs-on: ubuntu-latest
-    container:
-      image: openzipkin/zipkin
-      ports:
-        - 9414:9411
-    timeout-minutes: 5
-    
+
+    steps:
+      - name: Start Zipkin
+        run: docker run -d --name zipkin -p 9411:9411 openzipkin/zipkin
+
   start-mysql-favourite-db:
     runs-on: ubuntu-latest
-    container:
-      image: mysql:8
-      env:
-        MYSQL_ROOT_PASSWORD: password
-        MYSQL_DATABASE: favourite
-      ports:
-        - 33064:3306
-      options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-    timeout-minutes: 5
+
+    steps:
+      - name: Start MySQL Favourite DB
+        run: docker run -d --name mysql-favourite-db -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=favourite -p 33061:3306 mysql:8 --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
 
   push-to-docker-hub:
     needs: [build-discovery-service, build-cloud-gateway-service, build-favourite-service]
