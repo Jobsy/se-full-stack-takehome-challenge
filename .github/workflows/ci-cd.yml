@@ -95,7 +95,7 @@ jobs:
 
     steps:
       - name: Start MySQL Favourite DB
-        run: docker run -d --name mysql-favourite-db -e MYSQL_ROOT_PASSWORD=secrets.MYSQL_DB_PASSWORD -e MYSQL_DATABASE=favourite -p 33061:3306 mysql:8 --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        run: docker run -d --name mysql-favourite-db -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=favourite -p 33061:3306 mysql:8 --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
 
   push-to-docker-hub:
