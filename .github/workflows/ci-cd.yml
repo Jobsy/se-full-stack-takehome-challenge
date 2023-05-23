@@ -62,28 +62,34 @@ jobs:
   build-favourite-service:
 #     needs: [start-zipkin, build-discovery-service, build-cloud-gateway-service]
     runs-on: ubuntu-latest
+    container: ubuntu
     services:
       zipkin:
         image: openzipkin/zipkin
         ports:
           - 9411:9411
       
-#       mysql-favourite-db:
-#         image: mysql:8
-#         env:
-#           MYSQL_ROOT_PASSWORD: password
-#           MYSQL_DATABASE: favourite
-#         ports:
-#           - 33061:3306
-#         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
       mysql-favourite-db:
-        image: mysql:5.7
+        image: mysql:8
         env:
           MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: favourite
         ports:
-        - 33061:3306
+          - 33061:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-        
+#       mysql-favourite-db:
+#         image: mysql:5.7
+#         env:
+#           MYSQL_ROOT_PASSWORD: password
+#         ports:
+#         - 33061:3306
+#         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+#     steps:
+#     - name: Verify MySQL connection from container 
+#       run: |
+#         apt-get update
+#         apt-get install -y mysql-client
+#         mysql --host mydb -uroot -ppassword -e "SHOW DATABASES" 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
