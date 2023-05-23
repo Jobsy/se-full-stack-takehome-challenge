@@ -62,20 +62,20 @@ jobs:
   build-favourite-service:
     needs: [start-zipkin, build-discovery-service, build-cloud-gateway-service]
     runs-on: ubuntu-latest
-#     services:
-#       zipkin:
-#         image: openzipkin/zipkin
-#         ports:
-#           - 9411:9411
+    services:
+      zipkin:
+        image: openzipkin/zipkin
+        ports:
+          - 9411:9411
 
-#       mysql-favourite-db2:
-#         image: mysql:8
-#         env:
-#           MYSQL_ROOT_PASSWORD: password
-#           MYSQL_DATABASE: favourite
-#         ports:
-#           - 33061:3306
-#         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      mysql-favourite-db2:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: favourite
+        ports:
+          - 33061:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - name: Checkout repository
@@ -94,8 +94,8 @@ jobs:
           overwrite-settings: true
           job-status: 'success'
           
-      - name: Start MySQL Favourite DB
-        run: docker run -d --name mysql-favourite-db -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=favourite -p 33061:3306 mysql:8 --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+#       - name: Start MySQL Favourite DB
+#         run: docker run -d --name mysql-favourite-db -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=favourite -p 33061:3306 mysql:8 --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
       - name: Build Favourite Service
         run: |
