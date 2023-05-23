@@ -123,6 +123,8 @@ jobs:
 #           apt-get update
 #           apt-get install -y mysql-client
 #           mysql --host mysql-favourite-db --port 33061 -uroot -ppassword -e "SHOW DATABASES"
+      - name: Install Maven
+        run: apt-get install -y maven
       - name: Build Favourite Service
         env:
           MYSQL_HOST: mydb
