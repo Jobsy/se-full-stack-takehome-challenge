@@ -8,7 +8,7 @@ on:
       - main
   pull_request:
     branches:
-      - main      
+      - main
 
 jobs:
   build-discovery-service:
@@ -36,8 +36,22 @@ jobs:
         run: cd backend-application/discovery-service && mvn clean install
 
   build-cloud-gateway-service:
-    needs: [start-zipkin, build-discovery-service]
+    needs: [start-zipkin, start-mysql-favourite-db, build-discovery-service]
     runs-on: ubuntu-latest
+    services:
+      zipkin:
+        image: openzipkin/zipkin
+        ports:
+          - 9411:9411
+
+      mysql-favourite-db:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: favourite
+        ports:
+          - 33061:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - name: Checkout repository
@@ -76,7 +90,6 @@ jobs:
         ports:
           - 33061:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
 
     steps:
       - name: Checkout repository
@@ -133,4 +146,3 @@ jobs:
         run: |
           docker-compose build
           docker-compose push
-
