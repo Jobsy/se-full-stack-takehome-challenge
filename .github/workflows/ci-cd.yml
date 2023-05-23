@@ -104,9 +104,14 @@ jobs:
       - name: Verify MySQL connection from host
         run: |
           sudo apt-get install -y mysql-client
-          mysql --host 127.0.0.1 --port 32574 -uroot -ppassword -e "SHOW DATABASES"
+          mysql --host 127.0.0.1 --port 33061 -uroot -ppassword -e "SHOW DATABASES"
 
       - name: Build Favourite Service
+        env:
+          MYSQL_HOST: localhost
+          MYSQL_PORT: 33061
+          MYSQL_USER: root
+          MYSQL_PASSWORD: password
         run: |
             sleep 30 # Delay for 10 seconds
             cd backend-application/favourite-service && mvn clean install
