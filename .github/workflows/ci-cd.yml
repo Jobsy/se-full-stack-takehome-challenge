@@ -94,8 +94,8 @@ jobs:
           overwrite-settings: true
           job-status: 'success'
           
-#       - name: Start MySQL Favourite DB
-#         run: docker run -d --name mysql-favourite-db -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=favourite -p 33061:3306 mysql:8 --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      - name: Start MySQL Favourite DB
+        run: docker-compose up -d mysql-favourite-db2
 
       - name: Build Favourite Service
         run: |
