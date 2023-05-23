@@ -60,7 +60,7 @@ jobs:
         run: cd backend-application/cloud-gateway-service && mvn clean install
 
   build-favourite-service:
-    needs: [start-mysql-favourite-db, start-zipkin, build-discovery-service, build-cloud-gateway-service]
+    needs: [start-zipkin, build-discovery-service, build-cloud-gateway-service]
     runs-on: ubuntu-latest
     services:
       zipkin:
