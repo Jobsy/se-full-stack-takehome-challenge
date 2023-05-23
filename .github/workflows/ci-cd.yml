@@ -52,7 +52,7 @@ jobs:
           job-status: 'success'
 
       - name: Build Discovery Service
-        run: cd backend-application/discovery-service && mvn clean install
+        run: cd backend-application/discovery-service && mvn clean package
 
   build-cloud-gateway-service:
     needs: [start-zipkin, build-discovery-service]
@@ -76,7 +76,7 @@ jobs:
           job-status: 'success'
 
       - name: Build Cloud Gateway Service
-        run: cd ./backend-application/cloud-gateway-service && mvn clean install
+        run: cd ./backend-application/cloud-gateway-service && mvn clean package
 
   build-favourite-service:
     runs-on: ubuntu-latest
@@ -126,7 +126,7 @@ jobs:
           MYSQL_PASSWORD: password
         run: |
           sleep 30 # Delay for 30 seconds
-          cd backend-application/favourite-service && mvn clean install
+          cd backend-application/favourite-service && mvn clean package
    
   start-zipkin:
     runs-on: ubuntu-latest
