@@ -68,15 +68,20 @@ jobs:
         image: openzipkin/zipkin
         ports:
           - 9411:9411
-      
-      mysql-favourite-db:
-        image: mysql:8
+      mydb:
+        image: mysql:5.7
         env:
           MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: favourite
-        ports:
-          - 33061:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
+      
+#       mysql-favourite-db:
+#         image: mysql:8
+#         env:
+#           MYSQL_ROOT_PASSWORD: password
+#           MYSQL_DATABASE: favourite
+#         ports:
+#           - 33061:3306
+#         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 #       mysql-favourite-db:
 #         image: mysql:5.7
 #         env:
@@ -106,15 +111,21 @@ jobs:
           server-password: ${{ secrets.GITHUB_TOKEN }}
           overwrite-settings: true
           job-status: 'success'
-          
-      - name: Verify MySQL connection from host
+     
+      - name: Verify MySQL connection from container 
         run: |
           apt-get update
           apt-get install -y mysql-client
-          mysql --host mysql-favourite-db --port 33061 -uroot -ppassword -e "SHOW DATABASES"
+          mysql --host mydb -uroot -ppassword -e "SHOW DATABASES"
+        
+#       - name: Verify MySQL connection from host
+#         run: |
+#           apt-get update
+#           apt-get install -y mysql-client
+#           mysql --host mysql-favourite-db --port 33061 -uroot -ppassword -e "SHOW DATABASES"
       - name: Build Favourite Service
         env:
-          MYSQL_HOST: mysql-favourite-db
+          MYSQL_HOST: mydb
           MYSQL_PORT: 3306
           MYSQL_USER: root
           MYSQL_PASSWORD: password
