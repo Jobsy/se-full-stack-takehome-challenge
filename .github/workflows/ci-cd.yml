@@ -81,7 +81,9 @@ jobs:
           job-status: 'success'
 
       - name: Build Favourite Service
-        run: cd backend-application/favourite-service && mvn clean install
+        run: |
+            sleep 10 # Delay for 10 seconds
+            cd backend-application/favourite-service && mvn clean install
     
   start-zipkin:
     runs-on: ubuntu-latest
