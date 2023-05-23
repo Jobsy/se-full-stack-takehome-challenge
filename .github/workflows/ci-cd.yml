@@ -36,7 +36,7 @@ jobs:
         run: cd backend-application/discovery-service && mvn clean install
 
   build-cloud-gateway-service:
-    needs: [start-zipkin, start-mysql-favourite-db, build-discovery-service]
+    needs: [start-zipkin, build-discovery-service]
     runs-on: ubuntu-latest
     
     steps:
