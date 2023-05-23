@@ -109,6 +109,8 @@ jobs:
           
       - name: Verify MySQL connection from host
         run: |
+          apt-get update
+          apt-get install -y mysql-client
           mysql --host mysql-favourite-db --port 33061 -uroot -ppassword -e "SHOW DATABASES"
       - name: Build Favourite Service
         env:
