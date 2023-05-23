@@ -95,14 +95,14 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y mysql-client
-          mysql --host localhost -uroot -ppassword -e "SHOW DATABASES"
+          mysql --host 127.0.0.1 -uroot -ppassword -e "SHOW DATABASES"
 
       - name: Install Maven
         run: sudo apt-get install -y maven
 
       - name: Build Favourite Service
         env:
-          MYSQL_HOST: localhost
+          MYSQL_HOST: 127.0.0.1
           MYSQL_PORT: 3306
           MYSQL_USER: root
           MYSQL_PASSWORD: password
