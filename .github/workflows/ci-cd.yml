@@ -73,10 +73,8 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: favourite
-        ports:
-          - 33061:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
+        
+        
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -96,7 +94,7 @@ jobs:
           
       - name: Start MySQL Favourite DB
         run: |
-            cd se-full-stack-takehome-challenge/backend-application/ && docker-compose -f docker-compose.yml up -d mysql-favourite-db2
+          mysql --host 127.0.0.1 --port 33306 -uroot -ppassword
 
       - name: Build Favourite Service
         run: |
