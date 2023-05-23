@@ -32,7 +32,7 @@ services:
 
   favourite-service:
     container_name: favourite-service
-    build: ./favourite
+    build: ./favourite-service
     networks:
       - secretescape-net
     ports:
