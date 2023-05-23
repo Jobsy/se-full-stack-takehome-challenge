@@ -95,7 +95,7 @@ jobs:
           job-status: 'success'
           
       - name: Start MySQL Favourite DB
-        run: docker-compose -f ../../docker-compose.yml up -d mysql-favourite-db2
+        run: docker-compose -f /../backend-application/docker-compose.yml up -d mysql-favourite-db2
 
       - name: Build Favourite Service
         run: |
