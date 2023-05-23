@@ -60,7 +60,7 @@ jobs:
         run: cd backend-application/cloud-gateway-service && mvn clean install
 
   build-favourite-service:
-    needs: [start-mysql-favourite-db, start-zipkin, build-discovery-service, build-cloud-gateway-service]
+    needs: [start-zipkin, build-discovery-service, build-cloud-gateway-service]
     runs-on: ubuntu-latest
 #     services:
 #       zipkin:
@@ -95,8 +95,8 @@ jobs:
           job-status: 'success'
           
       - name: Start MySQL Favourite DB
-        run: docker start start-mysql-favourite-db
-          
+        run: docker run -d --name mysql-favourite-db -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=favourite -p 33061:3306 mysql:8 --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
       - name: Build Favourite Service
         run: |
             sleep 10 # Delay for 10 seconds
@@ -109,12 +109,12 @@ jobs:
       - name: Start Zipkin
         run: docker run -d --name zipkin -p 9412:9411 openzipkin/zipkin
 
-  start-mysql-favourite-db:
-    runs-on: ubuntu-latest
+#   start-mysql-favourite-db:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Start MySQL Favourite DB
-        run: docker run -d --name mysql-favourite-db -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=favourite -p 33061:3306 mysql:8 --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+#     steps:
+#       - name: Start MySQL Favourite DB
+#         run: docker run -d --name mysql-favourite-db -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=favourite -p 33061:3306 mysql:8 --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
 
   push-to-docker-hub:
