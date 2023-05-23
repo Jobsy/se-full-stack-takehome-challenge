@@ -62,17 +62,13 @@ jobs:
   build-favourite-service:
     runs-on: ubuntu-latest
     services:
-      zipkin:
-        image: openzipkin/zipkin
-        ports:
-          - 9411:9411
-      mydb:
+      start-mysql-favourite-db:
         image: mysql:5.7
         env:
           MYSQL_ROOT_PASSWORD: password
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
         ports:
-          - 33061:3306
+          - 3306:3306
 
     steps:
       - name: Checkout repository
@@ -106,7 +102,7 @@ jobs:
       - name: Build Favourite Service
         env:
           MYSQL_HOST: 127.0.0.1
-          MYSQL_PORT: 33061
+          MYSQL_PORT: 3306
           MYSQL_USER: root
           MYSQL_PASSWORD: password
         run: |
@@ -120,14 +116,6 @@ jobs:
       - name: Start Zipkin
         run: docker run -d --name zipkin -p 9412:9411 openzipkin/zipkin
 
-#   start-mysql-favourite-db:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Start MySQL Favourite DB
-#         run: docker run -d --name mysql-favourite-db -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=favourite -p 33061:3306 mysql:8 --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
-
   push-to-docker-hub:
     needs: [build-discovery-service, build-cloud-gateway-service, build-favourite-service]
     runs-on: ubuntu-latest
@@ -140,7 +128,7 @@ jobs:
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build and push Docker images
         run: |
