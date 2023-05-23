@@ -61,16 +61,19 @@ jobs:
 
   build-favourite-service:
     runs-on: ubuntu-latest
-    container:
-      image: ubuntu
     services:
+      zipkin:
+        image: openzipkin/zipkin
+        ports:
+          - 9411:9411
       mydb:
         image: mysql:5.7
         env:
           MYSQL_ROOT_PASSWORD: password
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -99,7 +102,7 @@ jobs:
 
       - name: Build Favourite Service
         env:
-          MYSQL_HOST: mydb
+          MYSQL_HOST: localhost
           MYSQL_PORT: 3306
           MYSQL_USER: root
           MYSQL_PASSWORD: password
