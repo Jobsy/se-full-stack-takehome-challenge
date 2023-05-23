@@ -76,12 +76,12 @@ jobs:
 #         ports:
 #           - 33061:3306
 #         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-      mysql:
+      mysql-favourite-db:
         image: mysql:5.7
         env:
           MYSQL_ROOT_PASSWORD: password
         ports:
-        - 32574:3306
+        - 33061:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
         
     steps:
@@ -103,12 +103,11 @@ jobs:
           
       - name: Verify MySQL connection from host
         run: |
-          sudo apt-get install -y mysql-client
-          mysql --host 127.0.0.1 --port 32574 -uroot -ppassword -e "SHOW DATABASES"
+          mysql --host mysql-favourite-db --port 33061 -uroot -ppassword -e "SHOW DATABASES"
       - name: Build Favourite Service
         env:
-          MYSQL_HOST: 127.0.0.1
-          MYSQL_PORT: 32574
+          MYSQL_HOST: mysql-favourite-db
+          MYSQL_PORT: 3306
           MYSQL_USER: root
           MYSQL_PASSWORD: password
         run: |
