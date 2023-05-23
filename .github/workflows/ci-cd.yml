@@ -95,7 +95,7 @@ jobs:
           job-status: 'success'
           
       - name: Start MySQL Favourite DB
-        run: docker start mysql-favourite-db
+        run: docker start start-mysql-favourite-db
           
       - name: Build Favourite Service
         run: |
