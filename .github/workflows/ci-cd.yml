@@ -132,6 +132,6 @@ jobs:
 
       - name: Build and push Docker images
         run: |
-          cd backend-application
+          cd ..
           docker-compose build
           docker-compose push
