@@ -12,7 +12,7 @@ on:
 
 jobs:
   build-discovery-service:
-    needs: [start-zipkin]
+#     needs: [start-zipkin]
     runs-on: ubuntu-latest
 
     steps:
@@ -36,7 +36,7 @@ jobs:
 #         run: cd backend-application/discovery-service && mvn clean install
 
   build-cloud-gateway-service:
-    needs: [start-zipkin, build-discovery-service]
+#     needs: [start-zipkin, build-discovery-service]
     runs-on: ubuntu-latest
     
     steps:
@@ -60,7 +60,7 @@ jobs:
 #         run: cd ./backend-application/cloud-gateway-service && mvn clean install
 
   build-favourite-service:
-    needs: [start-zipkin, build-discovery-service, build-cloud-gateway-service]
+#     needs: [start-zipkin, build-discovery-service, build-cloud-gateway-service]
     runs-on: ubuntu-latest
     services:
       zipkin:
@@ -96,19 +96,19 @@ jobs:
           
       - name: Start MySQL Favourite DB
         run: |
-            cd backend-application && docker-compose -f docker-compose.yml up -d mysql-favourite-db2
+            cd se-full-stack-takehome-challenge/backend-application/ && docker-compose -f docker-compose.yml up -d mysql-favourite-db2
 
       - name: Build Favourite Service
         run: |
             sleep 10 # Delay for 10 seconds
             cd backend-application/favourite-service && mvn clean install
     
-  start-zipkin:
-    runs-on: ubuntu-latest
+#   start-zipkin:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Start Zipkin
-        run: docker run -d --name zipkin -p 9412:9411 openzipkin/zipkin
+#     steps:
+#       - name: Start Zipkin
+#         run: docker run -d --name zipkin -p 9412:9411 openzipkin/zipkin
 
 #   start-mysql-favourite-db:
 #     runs-on: ubuntu-latest
