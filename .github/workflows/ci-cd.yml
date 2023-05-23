@@ -153,7 +153,14 @@ jobs:
       - name: Verify directory contents
         run: ls backend-application
 
-      - name: Build and push Docker images
+
+      - name: Set up Docker Compose
+        run: |
+          sudo rm /usr/local/bin/docker-compose
+          curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+
+      - name: Build and Push Docker Compose
         run: |
           cd backend-application
           docker-compose build
