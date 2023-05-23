@@ -3,7 +3,7 @@ version: "3"
 services:
   discovery-service:
     container_name: discovery-service
-    build: ./discovery-server
+    build: ./discovery-service
     networks:
       - secretescape-net
     ports:
