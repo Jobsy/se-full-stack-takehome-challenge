@@ -131,7 +131,8 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build and push Docker images
-        working-directory: backend-application
+#         working-directory: backend-application
         run: |
+          cd backend-application
           docker-compose build
           docker-compose push
