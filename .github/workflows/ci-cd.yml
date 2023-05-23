@@ -91,25 +91,28 @@ jobs:
           overwrite-settings: true
           job-status: 'success'
 
+      - name: Update apt-get
+        run: sudo apt-get update
+
+      - name: Install MySQL client
+        run: sudo apt-get install -y mysql-client
+
       - name: Verify MySQL connection from container 
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y mysql-client
-          mysql --host 127.0.0.1 -uroot -ppassword -e "SHOW DATABASES"
+        run: mysql --host mydb -uroot -ppassword -e "SHOW DATABASES"
 
       - name: Install Maven
         run: sudo apt-get install -y maven
 
       - name: Build Favourite Service
         env:
-          MYSQL_HOST: 127.0.0.1
+          MYSQL_HOST: mydb
           MYSQL_PORT: 3306
           MYSQL_USER: root
           MYSQL_PASSWORD: password
         run: |
           sleep 30 # Delay for 30 seconds
           cd backend-application/favourite-service && mvn clean install
-    
+   
 #   start-zipkin:
 #     runs-on: ubuntu-latest
 
