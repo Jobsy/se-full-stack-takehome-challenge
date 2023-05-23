@@ -68,13 +68,13 @@ jobs:
         ports:
           - 9411:9411
 
-      mysql-favourite-db2:
+      mysql-favourite-db:
         image: mysql:8
         env:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: favourite
         ports:
-          - 33306:3306
+          - 33061:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
         
         
@@ -97,7 +97,7 @@ jobs:
           
       - name: Start MySQL Favourite DB
         run: |
-          mysql --host 127.0.0.1 --port 33306 -uroot -ppassword
+          mysql --host 127.0.0.1 --port 33061 -uroot -ppassword
 
       - name: Build Favourite Service
         run: |
