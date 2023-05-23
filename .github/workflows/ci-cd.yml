@@ -137,7 +137,7 @@ jobs:
 
   push-to-docker-hub:
 #     needs: [build-discovery-service, build-cloud-gateway-service, build-favourite-service]
-    needs: [build]
+    needs: [clear-cache-and-build]
     runs-on: ubuntu-latest
 
     steps:
