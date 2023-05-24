@@ -41,9 +41,9 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-#           args: --sarif-file-output=snyk-discovery.sarif
-            args: --sarif-file-output=snyk.sarif
-            directory: backend-application/discovery-service && mvn clean install
+          entryPoint: 'test'
+          args: '--all-projects --sarif-file-output=snyk-discovery.sarif'
+          directory: backend-application/discovery-service
           
       - name: Snyk Code test (Discovery Service)
         run: |
