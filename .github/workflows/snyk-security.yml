@@ -33,7 +33,14 @@ jobs:
         with:
           java-version: '17'
           distribution: 'adopt'
-#           architecture: 'x64'
+          architecture: 'x64'
+          
+      - name: Install Snyk CLI
+        run: npm install -g snyk
+
+      - name: Synchronize Snyk policy
+        run: snyk config set from-snyk=true
+
 # -------------
 #       - name: Snyk Code test - Run Snyk to check for vulnerabilities (Discovery Service)
 #         env:
@@ -69,43 +76,13 @@ jobs:
           cd backend-application/discovery-service
           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
           snyk code test --sarif > snyk-code.sarif || true
+          snyk test --all-projects --sarif-file-output=snyk-security.sarif
 
-          # Check if snyk-code.sarif file is empty
-          if [[ ! -s snyk-code.sarif ]]; then
-            echo "No Snyk Code issues found."
-            exit 0
-          fi
-
-          # Filter Snyk Code results and count the number of non-ignored issues
-          filtered_issues=$(jq '[.issues[] | select(.severity != "ignored")]' snyk-code.sarif 2>/dev/null || echo "[]")
-          issue_count=$(echo "$filtered_issues" | jq 'length')
-
-          # Output filtered results to a file
-          echo "$filtered_issues" > filtered-snyk-code.sarif
-
-          # Check if all non-ignored issues have been filtered out or if there are no issues
-          if [[ -z "$filtered_issues" || $issue_count -eq 0 ]]; then
-            exit 0
-          else
-            # Mark specific issues as "ignored"
-            snyk code ignore <issue_identifier> --sarif-file=snyk-code.sarif
-
-            # Filter the results again after ignoring specific issues
-            filtered_issues=$(jq '[.issues[] | select(.severity != "ignored")]' snyk-code.sarif 2>/dev/null || echo "[]")
-            issue_count=$(echo "$filtered_issues" | jq 'length')
-
-            # Output final filtered results to a file
-            echo "$filtered_issues" > filtered-snyk-code.sarif
-
-            # Check if all non-ignored issues have been filtered out or if there are no issues
-            if [[ -z "$filtered_issues" || $issue_count -eq 0 ]]; then
-              exit 0
-            else
-              exit 1
-            fi
-          fi
-
-
+      - name: Upload Snyk scan results
+        uses: actions/upload-artifact@v2
+        with:
+          name: Snyk Scan Results
+          path: snyk-security.sarif
           
           
           
