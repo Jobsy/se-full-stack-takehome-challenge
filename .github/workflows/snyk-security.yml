@@ -26,9 +26,34 @@ jobs:
         # Break the build when it detects security issues and upload the SAST issues to GitHub Code Scanning
         uses: snyk/actions/setup@806182742461562b67788a64410098c9d9b96adb
 
-        # Set up the development environment for your application's dependencies
-#       - name: Install dependencies
-#         run: npm install 
+
+
+      - name: Run Snyk to check for vulnerabilities (Discovery Service)
+        uses: snyk/actions/maven@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: 'test'
+          args: '--all-projects --sarif-file-output=snyk-discovery.sarif'
+          directory: backend-application/discovery-service
+
+      - name: Run Snyk to check for vulnerabilities (Cloud Gateway Service)
+        uses: snyk/actions/maven@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: 'test'
+          args: '--all-projects --sarif-file-output=snyk-cloud-gateway.sarif'
+          directory: backend-application/cloud-gateway-service
+
+      - name: Run Snyk to check for vulnerabilities (Favourite Service)
+        uses: snyk/actions/maven@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: 'test'
+          args: '--all-projects --sarif-file-output=snyk-favourite.sarif'
+          directory: backend-application/favourite-service
 # ...
       - name: Set up JDK 17
         uses: actions/setup-java@v2
@@ -44,12 +69,28 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: |
-          sudo apk add --update --no-cache ca-certificates git && update-ca-certificates
           cd backend-application/discovery-service
           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
           snyk code test --all-projects --sarif-file-output=snyk-code-discovery.sarif
 
+# ...
 
+    
+      - name: Snyk Code test (Cloud Gateway Service)
+        env:
+            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          cd backend-application/cloud-gateway-service
+          mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
+          snyk code test --all-projects --sarif-file-output=snyk-code-cloud-gateway.sarif
+
+      - name: Snyk Code test (Favourite Service)
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          cd backend-application/favourite-service
+          mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
+          snyk code test --all-projects --sarif-file-output=snyk-code-favourite.sarif
         
 #       - name: Run Snyk to check for vulnerabilities
 #         uses: snyk/actions/maven@master
