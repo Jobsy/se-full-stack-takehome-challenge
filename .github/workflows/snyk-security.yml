@@ -28,7 +28,13 @@ jobs:
 
         # Set up the development environment for your application's dependencies
 #       - name: Install dependencies
-#         run: npm install   
+#         run: npm install 
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+         java-version: 17
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
         
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/maven@master
@@ -42,7 +48,7 @@ jobs:
         # Use || true to not fail the pipeline
       - name: Snyk Code test
         run: |
-          cd /backend-application/discovery-service && mvn clean package
+          cd /backend-application/discovery-service
           snyk code test --sarif > snyk-code.sarif || true
 
         # Run Snyk Open Source (SCA) analysis and uploads result to Snyk
