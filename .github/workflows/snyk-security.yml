@@ -66,7 +66,7 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: |
-          cd /backend-application/discovery-service
+          cd backend-application/discovery-service
           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
           snyk code test --sarif > snyk-code.sarif || true
           snyk test --maven-aggregate-project
@@ -76,7 +76,7 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: |
-          cd /backend-application/discovery-service
+          cd backend-application/discovery-service
           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
           snyk monitor --all-projects
 
