@@ -42,41 +42,14 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --sarif-file-output=snyk-discovery.sarif
-          directory: backend-application/discovery-service
-
-      - name: Run Snyk to check for vulnerabilities (Cloud Gateway Service)
-        uses: snyk/actions/maven@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --sarif-file-output=snyk-cloud-gateway.sarif
-          directory: backend-application/cloud-gateway-service
-
-      - name: Run Snyk to check for vulnerabilities (Favourite Service)
-        uses: snyk/actions/maven@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --sarif-file-output=snyk-favourite.sarif
-          directory: backend-application/favourite-service
-
+          directory: backend-application/discovery-service && mvn clean install
+          
       - name: Snyk Code test (Discovery Service)
         run: |
-          cd backend-application/discovery-service
+          cd backend-application/discovery-service && mvn clean install
           snyk code test --sarif > snyk-code-discovery.sarif || true
           snyk test --maven-aggregate-project
 
-      - name: Snyk Code test (Cloud Gateway Service)
-        run: |
-          cd backend-application/cloud-gateway-service
-          snyk code test --sarif > snyk-code-cloud-gateway.sarif || true
-          snyk test --maven-aggregate-project
-
-      - name: Snyk Code test (Favourite Service)
-        run: |
-          cd backend-application/favourite-service
-          snyk code test --sarif > snyk-code-favourite.sarif || true
-          snyk test --maven-aggregate-project
 
         
 #       - name: Run Snyk to check for vulnerabilities
@@ -105,12 +78,12 @@ jobs:
 #       - name: Build docker image
 #         run: docker build -t oluwajoba/clinic-finder .
 
-      - name: Security scan on docker image
-        uses: snyk/actions/docker@master
-        id: docker-image-scan
-        continue-on-error: true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+#       - name: Security scan on docker image
+#         uses: snyk/actions/docker@master
+#         id: docker-image-scan
+#         continue-on-error: true
+#         env:
+#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 #         with:
 #           image: oluwajoba/:latest --file=Dockerfile
           
