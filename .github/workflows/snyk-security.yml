@@ -60,7 +60,16 @@ jobs:
 #           cd backend-application/favourite-service
 #           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
 #           snyk code test --all-projects --sarif-file-output=snyk-code-favourite.sarif
-# # --------------        
+# # --------------  
+
+        # Run Snyk Open Source (SCA) analysis and uploads result to Snyk
+      - name: Snyk Open Source monitor -----1
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          cd backend-application/discovery-service
+          mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
+          snyk monitor --all-projects
 
         # Run Snyk Code (SAST) analysis and uploads result into GitHub
         # Use || true to not fail the pipeline
@@ -90,7 +99,7 @@ jobs:
           
           
         # Run Snyk Open Source (SCA) analysis and uploads result to Snyk
-      - name: Snyk Open Source monitor
+      - name: Snyk Open Source monitor ----2
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: |
