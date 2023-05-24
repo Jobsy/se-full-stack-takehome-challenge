@@ -44,6 +44,7 @@ jobs:
         env:
           SNYK_TOKEN: secret-escape-123
         run: |
+          sudo apk add --update --no-cache ca-certificates git && update-ca-certificates
           cd backend-application/discovery-service
           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
           snyk auth --org=Jobsy --token="${SNYK_TOKEN}"
