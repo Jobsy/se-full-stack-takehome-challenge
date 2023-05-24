@@ -41,11 +41,12 @@ jobs:
 
 
       - name: Snyk Code test (Discovery Service)
+        env:
+          SNYK_TOKEN: secret-escape-123
         run: |
           cd backend-application/discovery-service
           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
-          export SNYK_TOKEN=${{ secrets.SNYK_TOKEN }}
-          snyk auth --org=Jobsy --token=$SNYK_TOKEN
+          snyk auth --org=Jobsy --token="${SNYK_TOKEN}"
           snyk code test --all-projects --sarif-file-output=snyk-code-discovery.sarif
 
 
