@@ -71,8 +71,15 @@ jobs:
           snyk code test --sarif > snyk-code.sarif || true
           snyk test --maven-aggregate-project
           # Filter and output Snyk Code results without ignored issues
-          jq '[.issues[] | select(.severity!="ignored")]' snyk-code.sarif > filtered-snyk-code.sarif
-          cat filtered-snyk-code.sarif
+          filtered_issues=$(jq '[.issues[] | select(.severity!="ignored")]' snyk-code.sarif)
+          echo "$filtered_issues" > filtered-snyk-code.sarif
+
+          # Check if all issues have severity "ignored" or there are no issues
+          if [[ $(echo "$filtered_issues" | jq 'length') -eq 0 ]]; then
+            exit 0
+          else
+            exit 1
+          fi
 
 
         # Run Snyk Open Source (SCA) analysis and uploads result to Snyk
