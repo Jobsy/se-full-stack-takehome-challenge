@@ -42,7 +42,7 @@ jobs:
         # Use || true to not fail the pipeline
       - name: Snyk Code test
         run: |
-          cd ./backend-application/discovery-service && mvn clean package
+          cd /backend-application/discovery-service && mvn clean package
           snyk code test --sarif > snyk-code.sarif || true
 
         # Run Snyk Open Source (SCA) analysis and uploads result to Snyk
