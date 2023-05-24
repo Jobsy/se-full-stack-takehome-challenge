@@ -37,14 +37,12 @@ jobs:
           distribution: 'adopt'
           architecture: 'x64'
 
-      - name: Set JAVA_HOME
-        run: echo "JAVA_HOME=/usr/lib/jvm/adopt@17" >> $GITHUB_ENV
-
 
       - name: Run Snyk to check for vulnerabilities (Discovery Service)
         uses: snyk/actions/maven@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
         with:
           command: 'test'
           args: '--all-projects --sarif-file-output=snyk-discovery.sarif'
@@ -54,6 +52,7 @@ jobs:
         uses: snyk/actions/maven@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
         with:
           command: 'test'
           args: '--all-projects --sarif-file-output=snyk-cloud-gateway.sarif'
@@ -63,6 +62,7 @@ jobs:
         uses: snyk/actions/maven@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
         with:
           command: 'test'
           args: '--all-projects --sarif-file-output=snyk-favourite.sarif'
@@ -82,7 +82,8 @@ jobs:
         run: |
           cd backend-application/favourite-service
           snyk code test --sarif-file-output=snyk-code-favourite.sarif
-...
+
+
 
 
         
