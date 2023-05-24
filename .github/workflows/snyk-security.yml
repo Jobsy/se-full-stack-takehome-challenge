@@ -36,102 +36,98 @@ jobs:
           architecture: 'x64'
 
 
-# # -------------
-#       - name: Snyk Code test - Run Snyk to check for vulnerabilities (Discovery Service)
-#         env:
-#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#         run: |
-#           cd backend-application/discovery-service
-#           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
-#           snyk code test --all-projects --sarif-file-output=snyk-code-discovery.sarif
+      - name: Snyk Code test - Run Snyk to check for vulnerabilities (Discovery Service)
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          cd backend-application/discovery-service
+          mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
+          snyk code test --all-projects --sarif-file-output=snyk-code-discovery.sarif
           
-#       - name: Snyk Code test - Run Snyk to check for vulnerabilities (Cloud Gateway Service)
-#         env:
-#             SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#         run: |
-#           cd backend-application/cloud-gateway-service
-#           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
-#           snyk code test --all-projects --sarif-file-output=snyk-code-cloud-gateway.sarif
+      - name: Snyk Code test - Run Snyk to check for vulnerabilities (Cloud Gateway Service)
+        env:
+            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          cd backend-application/cloud-gateway-service
+          mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
+          snyk code test --all-projects --sarif-file-output=snyk-code-cloud-gateway.sarif
 
-#       - name: Snyk Code test - Run Snyk to check for vulnerabilities (Favourite Service)
-#         env:
-#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#         run: |
-#           cd backend-application/favourite-service
-#           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
-#           snyk code test --all-projects --sarif-file-output=snyk-code-favourite.sarif
-# # --------------  
+      - name: Snyk Code test - Run Snyk to check for vulnerabilities (Favourite Service)
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          cd backend-application/favourite-service
+          mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
+          snyk code test --all-projects --sarif-file-output=snyk-code-favourite.sarif
 
-#         # Run Snyk Open Source (SCA) analysis and uploads result to Snyk
-#       - name: Snyk Open Source Monitor Before Test (Discovery Service)
-#         env:
-#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#         run: |
-#           cd backend-application/discovery-service
-#           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
-#           snyk monitor --all-projects
+        # Run Snyk Open Source (SCA) analysis and uploads result to Snyk
+      - name: Snyk Open Source Monitor Before Test (Discovery Service)
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          cd backend-application/discovery-service
+          mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
+          snyk monitor --all-projects
 
-#         # Run Snyk Code (SAST) analysis and uploads result into GitHub
-#         # Use || true to not fail the pipeline
-#       - name: Snyk Code test (Discovery Service)
-#         env:
-#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#         run: |
-#           cd backend-application/discovery-service
-#           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
-#           snyk code test --sarif > snyk-code.sarif || true
-#           snyk test --all-projects --sarif-file-output=snyk-test.sarif
+        # Run Snyk Code (SAST) analysis and uploads result into GitHub
+        # Use || true to not fail the pipeline
+      - name: Snyk Code test (Discovery Service)
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          cd backend-application/discovery-service
+          mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
+          snyk code test --sarif > snyk-code.sarif || true
+          snyk test --all-projects --sarif-file-output=snyk-test.sarif
 
-#       - name: Upload Snyk test results (Discovery Service)
-#         uses: github/codeql-action/upload-sarif@v2
-#         with:
-#           sarif_file: backend-application/discovery-service/snyk-test.sarif
+      - name: Upload Snyk test results (Discovery Service)
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: backend-application/discovery-service/snyk-test.sarif
           
-#         # Run Snyk Open Source (SCA) analysis and uploads result to Snyk
-#       - name: Snyk Open Source Monitor After Test (Discovery Service)
-#         env:
-#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#         run: |
-#           cd backend-application/discovery-service
-#           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
-#           snyk monitor --all-projects
+        # Run Snyk Open Source (SCA) analysis and uploads result to Snyk
+      - name: Snyk Open Source Monitor After Test (Discovery Service)
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          cd backend-application/discovery-service
+          mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
+          snyk monitor --all-projects
 
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-#        # Run Snyk Open Source (SCA) analysis and uploads result to Snyk
-#       - name: Snyk Open Source Monitor Before Test (Favourite Service)
-#         env:
-#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#         run: |
-#           cd backend-application/favourite-service
-#           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
-#           snyk monitor --all-projects
+       # Run Snyk Open Source (SCA) analysis and uploads result to Snyk
+      - name: Snyk Open Source Monitor Before Test (Favourite Service)
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          cd backend-application/favourite-service
+          mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
+          snyk monitor --all-projects
 
-#         # Run Snyk Code (SAST) analysis and uploads result into GitHub
-#         # Use || true to not fail the pipeline
-#       - name: Snyk Code test (Favourite Service)
-#         env:
-#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#         run: |
-#           cd backend-application/favourite-service
-#           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
-#           snyk code test --sarif > snyk-code.sarif || true
-#           snyk test --all-projects --sarif-file-output=snyk-test.sarif
+        # Run Snyk Code (SAST) analysis and uploads result into GitHub
+        # Use || true to not fail the pipeline
+      - name: Snyk Code test (Favourite Service)
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          cd backend-application/favourite-service
+          mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
+          snyk code test --sarif > snyk-code.sarif || true
+          snyk test --all-projects --sarif-file-output=snyk-test.sarif
 
-#       - name: Upload Snyk test results (Favourite Service)
-#         uses: github/codeql-action/upload-sarif@v2
-#         with:
-#           sarif_file: backend-application/favourite-service/snyk-test.sarif
+      - name: Upload Snyk test results (Favourite Service)
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: backend-application/favourite-service/snyk-test.sarif
           
-#         # Run Snyk Open Source (SCA) analysis and uploads result to Snyk
-#       - name: Snyk Open Source Monitor After Test (Favourite Service)
-#         env:
-#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#         run: |
-#           cd backend-application/favourite-service
-#           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
-#           snyk monitor --all-projects
-# ??????????????????????????????????????????????///       
+        # Run Snyk Open Source (SCA) analysis and uploads result to Snyk
+      - name: Snyk Open Source Monitor After Test (Favourite Service)
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          cd backend-application/favourite-service
+          mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
+          snyk monitor --all-projects
        
        # Run Snyk Open Source (SCA) analysis and uploads result to Snyk
       - name: Snyk Open Source Monitor Before Test (Clound Gateway Service)
