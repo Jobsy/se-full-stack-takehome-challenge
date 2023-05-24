@@ -35,26 +35,71 @@ jobs:
          java-version: 17
 #       - name: Build with Maven
 #         run: mvn -B package --file pom.xml
-        
-      - name: Run Snyk to check for vulnerabilities
+...
+      - name: Run Snyk to check for vulnerabilities (Discovery Service)
         uses: snyk/actions/maven@master
         env:
-          # Snyk API token created with your Snyk account
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --sarif-file-output=snyk.sarif
+          args: --sarif-file-output=snyk-discovery.sarif
+          directory: backend-application/discovery-service
 
-        # Run Snyk Code (SAST) analysis and uploads result into GitHub
-        # Use || true to not fail the pipeline
-      - name: Snyk Code test
-        run: |
-          snyk test --maven-aggregate-project
-
-        # Run Snyk Open Source (SCA) analysis and uploads result to Snyk
-      - name: Snyk Open Source monitor
-        run: snyk monitor --all-projects
+      - name: Run Snyk to check for vulnerabilities (Cloud Gateway Service)
+        uses: snyk/actions/maven@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --sarif-file-output=snyk-cloud-gateway.sarif
+          directory: backend-application/cloud-gateway-service
+
+      - name: Run Snyk to check for vulnerabilities (Favourite Service)
+        uses: snyk/actions/maven@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --sarif-file-output=snyk-favourite.sarif
+          directory: backend-application/favourite-service
+
+      - name: Snyk Code test (Discovery Service)
+        run: |
+          cd backend-application/discovery-service
+          snyk code test --sarif > snyk-code-discovery.sarif || true
+          snyk test --maven-aggregate-project
+
+      - name: Snyk Code test (Cloud Gateway Service)
+        run: |
+          cd backend-application/cloud-gateway-service
+          snyk code test --sarif > snyk-code-cloud-gateway.sarif || true
+          snyk test --maven-aggregate-project
+
+      - name: Snyk Code test (Favourite Service)
+        run: |
+          cd backend-application/favourite-service
+          snyk code test --sarif > snyk-code-favourite.sarif || true
+          snyk test --maven-aggregate-project
+
+        
+#       - name: Run Snyk to check for vulnerabilities
+#         uses: snyk/actions/maven@master
+#         env:
+#           # Snyk API token created with your Snyk account
+#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+#         with:
+#           args: --sarif-file-output=snyk.sarif
+
+#         # Run Snyk Code (SAST) analysis and uploads result into GitHub
+#         # Use || true to not fail the pipeline
+#       - name: Snyk Code test
+#         run: |
+#           cd /backend-application/discovery-service
+#           snyk code test --sarif > snyk-code.sarif || true
+#           snyk test --maven-aggregate-project
+
+#         # Run Snyk Open Source (SCA) analysis and uploads result to Snyk
+#       - name: Snyk Open Source monitor
+#         run: snyk monitor --all-projects
+#         env:
+#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
         # Build the docker image for testing
 #       - name: Build docker image
