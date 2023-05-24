@@ -70,6 +70,10 @@ jobs:
           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
           snyk code test --sarif > snyk-code.sarif || true
           snyk test --maven-aggregate-project
+          # Filter and output Snyk Code results without ignored issues
+          jq '[.issues[] | select(.severity!="ignored")]' snyk-code.sarif > filtered-snyk-code.sarif
+          cat filtered-snyk-code.sarif
+
 
         # Run Snyk Open Source (SCA) analysis and uploads result to Snyk
       - name: Snyk Open Source monitor
