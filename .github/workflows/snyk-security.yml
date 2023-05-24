@@ -36,7 +36,7 @@ jobs:
           architecture: 'x64'
           
       - name: Install Snyk CLI
-        run: npm install -g snyk
+        run: npm install -g snyk --force
 
       - name: Synchronize Snyk policy
         run: snyk config set from-snyk=true
