@@ -38,7 +38,8 @@ jobs:
           architecture: 'x64'
 
       - name: Set JAVA_HOME
-        run: echo "JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))" >> $GITHUB_ENV
+        run: echo "JAVA_HOME=/usr/lib/jvm/adopt@17" >> $GITHUB_ENV
+
 
       - name: Run Snyk to check for vulnerabilities (Discovery Service)
         uses: snyk/actions/maven@master
