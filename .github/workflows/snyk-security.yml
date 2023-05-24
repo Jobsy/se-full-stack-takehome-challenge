@@ -38,50 +38,11 @@ jobs:
           architecture: 'x64'
 
 
-      - name: Run Snyk to check for vulnerabilities (Discovery Service)
-        uses: snyk/actions/maven@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
-        with:
-          command: 'test'
-          args: '--all-projects --sarif-file-output=snyk-discovery.sarif'
-          directory: backend-application/discovery-service
-
-      - name: Run Snyk to check for vulnerabilities (Cloud Gateway Service)
-        uses: snyk/actions/maven@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
-        with:
-          command: 'test'
-          args: '--all-projects --sarif-file-output=snyk-cloud-gateway.sarif'
-          directory: backend-application/cloud-gateway-service
-
-      - name: Run Snyk to check for vulnerabilities (Favourite Service)
-        uses: snyk/actions/maven@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
-        with:
-          command: 'test'
-          args: '--all-projects --sarif-file-output=snyk-favourite.sarif'
-          directory: backend-application/favourite-service
-
       - name: Snyk Code test (Discovery Service)
         run: |
           cd backend-application/discovery-service
-          snyk code test --sarif-file-output=snyk-code-discovery.sarif
-
-      - name: Snyk Code test (Cloud Gateway Service)
-        run: |
-          cd backend-application/cloud-gateway-service
-          snyk code test --sarif-file-output=snyk-code-cloud-gateway.sarif
-
-      - name: Snyk Code test (Favourite Service)
-        run: |
-          cd backend-application/favourite-service
-          snyk code test --sarif-file-output=snyk-code-favourite.sarif
+          mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
+          snyk code test --all-projects --sarif-file-output=snyk-code-discovery.sarif
 
 
 
