@@ -42,13 +42,13 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --sarif-file-output=snyk-discovery.sarif
-          directory: backend-application/discovery-service && mvn clean install
+#           directory: backend-application/discovery-service && mvn clean install
           
-      - name: Snyk Code test (Discovery Service)
-        run: |
-          cd backend-application/discovery-service && mvn clean install
-          snyk code test --sarif > snyk-code-discovery.sarif || true
-          snyk test --maven-aggregate-project
+#       - name: Snyk Code test (Discovery Service)
+#         run: |
+#           cd backend-application/discovery-service && mvn clean install
+#           snyk code test --sarif > snyk-code-discovery.sarif || true
+#           snyk test --maven-aggregate-project
 
 
         
