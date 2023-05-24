@@ -42,7 +42,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           entryPoint: 'test'
-          args: '--all-projects --sarif-file-output=snyk-discovery.sarif'
+          args: '--all-projects --sarif-file-output=snyk.sarif'
           directory: backend-application/discovery-service
           
       - name: Snyk Code test (Discovery Service)
