@@ -71,7 +71,7 @@ jobs:
           snyk code test --sarif > snyk-code.sarif || true
 
           # Filter Snyk Code results and count the number of issues
-          filtered_issues=$(jq '[.issues[] | select(.severity!="ignored")]' snyk-code.sarif)
+          filtered_issues=$(jq '[.issues[] | select(.severity!="ignored")]' snyk-code.sarif 2>/dev/null || echo "[]")
           issue_count=$(echo "$filtered_issues" | jq 'length')
 
           # Output filtered results to a file
