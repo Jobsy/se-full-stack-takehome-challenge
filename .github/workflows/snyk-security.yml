@@ -70,26 +70,25 @@ jobs:
           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
           snyk code test --sarif > snyk-code.sarif || true
 
-          # Check if the snyk-code.sarif file exists and is non-empty
-          if [[ -s snyk-code.sarif ]]; then
-            # Filter Snyk Code results and count the number of non-ignored issues
-            filtered_issues=$(jq '[.issues[] | select(.severity != "ignored")]' snyk-code.sarif)
-            issue_count=$(echo "$filtered_issues" | jq 'length')
-
-            # Output filtered results to a file
-            echo "$filtered_issues" > filtered-snyk-code.sarif
-
-            # Check if all non-ignored issues have been filtered out
-            if [[ $issue_count -eq 0 ]]; then
-              exit 0
-            else
-              exit 1
-            fi
-          else
+          # Check if snyk-code.sarif file is empty
+          if [[ ! -s snyk-code.sarif ]]; then
             echo "No Snyk Code issues found."
             exit 0
           fi
 
+          # Filter Snyk Code results and count the number of non-ignored issues
+          filtered_issues=$(jq '[.issues[] | select(.severity != "ignored")]' snyk-code.sarif 2>/dev/null || echo "[]")
+          issue_count=$(echo "$filtered_issues" | jq 'length')
+
+          # Output filtered results to a file
+          echo "$filtered_issues" > filtered-snyk-code.sarif
+
+          # Check if all non-ignored issues have been filtered out
+          if [[ $issue_count -eq 0 ]]; then
+            exit 0
+          else
+            exit 1
+          fi
           
           
           
