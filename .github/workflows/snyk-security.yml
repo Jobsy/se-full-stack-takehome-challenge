@@ -81,6 +81,11 @@ jobs:
           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
           snyk code test --sarif > snyk-code.sarif || true
           snyk test --all-projects --sarif-file-output=snyk-test.sarif
+
+      - name: Upload Snyk test results
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: backend-application/discovery-service/snyk-test.sarif
           
         # Run Snyk Open Source (SCA) analysis and uploads result to Snyk
       - name: Snyk Open Source Monitor After Test
@@ -90,11 +95,6 @@ jobs:
           cd backend-application/discovery-service
           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
           snyk monitor --all-projects
-          
-      - name: Upload Snyk test results
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: snyk-test.sarif
 
 
         # Build the docker image for testing
