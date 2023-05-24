@@ -29,27 +29,59 @@ jobs:
         # Set up the development environment for your application's dependencies
 #       - name: Install dependencies
 #         run: npm install 
+...
       - name: Set up JDK 17
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
-         java-version: 17
-#       - name: Build with Maven
-#         run: mvn -B package --file pom.xml
-# ...
+          java-version: '17'
+          distribution: 'adopt'
+          architecture: 'x64'
+
+      - name: Set JAVA_HOME
+        run: echo "JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))" >> $GITHUB_ENV
+
       - name: Run Snyk to check for vulnerabilities (Discovery Service)
         uses: snyk/actions/maven@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: 'test'
-          args: '--all-projects --sarif-file-output=snyk.sarif'
+          args: '--all-projects --sarif-file-output=snyk-discovery.sarif'
           directory: backend-application/discovery-service
-          
+
+      - name: Run Snyk to check for vulnerabilities (Cloud Gateway Service)
+        uses: snyk/actions/maven@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: 'test'
+          args: '--all-projects --sarif-file-output=snyk-cloud-gateway.sarif'
+          directory: backend-application/cloud-gateway-service
+
+      - name: Run Snyk to check for vulnerabilities (Favourite Service)
+        uses: snyk/actions/maven@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: 'test'
+          args: '--all-projects --sarif-file-output=snyk-favourite.sarif'
+          directory: backend-application/favourite-service
+
       - name: Snyk Code test (Discovery Service)
         run: |
-          cd backend-application/discovery-service && mvn clean install
-          snyk code test --sarif > snyk.sarif || true
-          snyk test --maven-aggregate-project
+          cd backend-application/discovery-service
+          snyk code test --sarif-file-output=snyk-code-discovery.sarif
+
+      - name: Snyk Code test (Cloud Gateway Service)
+        run: |
+          cd backend-application/cloud-gateway-service
+          snyk code test --sarif-file-output=snyk-code-cloud-gateway.sarif
+
+      - name: Snyk Code test (Favourite Service)
+        run: |
+          cd backend-application/favourite-service
+          snyk code test --sarif-file-output=snyk-code-favourite.sarif
+...
 
 
         
