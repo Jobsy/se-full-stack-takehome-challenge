@@ -41,7 +41,7 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          entryPoint: 'test'
+          command: 'test'
           args: '--all-projects --sarif-file-output=snyk.sarif'
           directory: backend-application/discovery-service
           
