@@ -27,11 +27,11 @@ jobs:
         uses: snyk/actions/setup@806182742461562b67788a64410098c9d9b96adb
 
         # Set up the development environment for your application's dependencies
-      - name: Install dependencies
-        run: npm install   
+#       - name: Install dependencies
+#         run: npm install   
         
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
+        uses: snyk/actions/maven@master
         env:
           # Snyk API token created with your Snyk account
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
@@ -59,21 +59,21 @@ jobs:
         continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          image: oluwajoba/clinic-finder:latest --file=Dockerfile
+#         with:
+#           image: oluwajoba/:latest --file=Dockerfile
           
       # Run Snyk Container (Container and SCA) analysis and uploads result to Snyk
-      - name: Snyk Container monitor
-        run: snyk container monitor oluwajoba/clinic-finder:latest --file=Dockerfile
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+#       - name: Snyk Container monitor
+#         run: snyk container monitor oluwajoba/clinic-finder:latest --file=Dockerfile
+#         env:
+#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      - name: Upload sarif file to Github Code Scanning
-        if: always()
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: snyk.sarif
+#       - name: Upload sarif file to Github Code Scanning
+#         if: always()
+#         uses: github/codeql-action/upload-sarif@v2
+#         with:
+#           sarif_file: snyk.sarif
 
-      - name: Publish docker image
-        if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
-        run: docker push --all-tags registry-host:3000/oluwajoba/clinic-finder
+#       - name: Publish docker image
+#         if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+#         run: docker push --all-tags registry-host:3000/oluwajoba/
