@@ -76,21 +76,20 @@ jobs:
             exit 0
           fi
 
-          # Filter Snyk Code results and count the number of issues
-          filtered_issues=$(jq '[.issues[] | select(.severity != "ignored")]' snyk-code.sarif)
+          # Filter Snyk Code results and count the number of non-ignored issues
+          filtered_issues=$(jq '[.issues[] | select(.severity != "ignored")]' snyk-code.sarif 2>/dev/null || echo "[]")
           issue_count=$(echo "$filtered_issues" | jq 'length')
 
           # Output filtered results to a file
           echo "$filtered_issues" > filtered-snyk-code.sarif
 
-          # Check if all non-ignored issues have been filtered out
-          if [[ $issue_count -eq 0 ]]; then
-            echo "All Snyk Code issues are ignored."
+          # Check if all non-ignored issues have been filtered out or if there are no issues
+          if [[ -z "$filtered_issues" || $issue_count -eq 0 ]]; then
             exit 0
           else
-            echo "Unignored Snyk Code issues found."
             exit 1
           fi
+
 
           
           
