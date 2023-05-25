@@ -144,6 +144,9 @@ jobs:
           git config user.email "ghactions@brianvermeer.nl"
           git config user.name "GitHub Actions"
 
+      - name: Change to project directory
+        run: cd backend-application
+
       - name: Publish JAR
         run: mvn -B release:prepare release:perform -DskipTests
         env:
