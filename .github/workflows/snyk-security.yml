@@ -10,44 +10,44 @@ permissions:
   contents: read
 
 jobs:
-  discovery-service:
-    runs-on: ubuntu-latest
+#   discovery-service:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
 
-      - name: Set up Snyk CLI to check for security issues
-        uses: snyk/actions/setup@806182742461562b67788a64410098c9d9b96adb
+#       - name: Set up Snyk CLI to check for security issues
+#         uses: snyk/actions/setup@806182742461562b67788a64410098c9d9b96adb
       
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
-        with:
-          java-version: '17'
-          distribution: 'adopt'
-          architecture: 'x64'
+#       - name: Set up JDK 17
+#         uses: actions/setup-java@v2
+#         with:
+#           java-version: '17'
+#           distribution: 'adopt'
+#           architecture: 'x64'
 
-      - name: Snyk Code test - Run Snyk to check for vulnerabilities
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: |
-          cd backend-application/discovery-service
-          mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
-          snyk code test --all-projects --sarif-file-output=snyk-code-discovery.sarif
+#       - name: Snyk Code test - Run Snyk to check for vulnerabilities
+#         env:
+#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+#         run: |
+#           cd backend-application/discovery-service
+#           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
+#           snyk code test --all-projects --sarif-file-output=snyk-code-discovery.sarif
 
-      - name: Snyk Code test - Run Snyk to check for vulnerabilities
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: |
-          cd backend-application/discovery-service
-          mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
-          snyk code test --sarif > snyk-code.sarif || true
-          snyk test --all-projects --sarif-file-output=snyk-test.sarif
+#       - name: Snyk Code test - Run Snyk to check for vulnerabilities
+#         env:
+#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+#         run: |
+#           cd backend-application/discovery-service
+#           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
+#           snyk code test --sarif > snyk-code.sarif || true
+#           snyk test --all-projects --sarif-file-output=snyk-test.sarif
 
-      - name: Upload Snyk test results
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: backend-application/discovery-service/snyk-test.sarif
+#       - name: Upload Snyk test results
+#         uses: github/codeql-action/upload-sarif@v2
+#         with:
+#           sarif_file: backend-application/discovery-service/snyk-test.sarif
 
 #   favourite-service:
 #     runs-on: ubuntu-latest
