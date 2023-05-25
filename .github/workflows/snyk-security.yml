@@ -209,7 +209,7 @@ jobs:
           eval "$(ssh-agent -s)"
           echo "$SSH_PRIVATE_KEY" | ssh-add -
           cd backend-application/discovery-service
-          mvn -B release:prepare release:perform -DskipTests=true -Dmaven.test.skip.exec=true
+          mvn -B release:clean release:prepare release:perform -DskipTests=true -Dmaven.test.skip.exec=true -DtagName=v1.0.0
          
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
