@@ -11,7 +11,7 @@
 
 	<groupId>com.secretescapes</groupId>
 	<artifactId>cloud-gateway-service</artifactId>
-	<version>0.0.4-SNAPSHOT</version>
+	<version>0.0.4</version>
 	<name>cloud-gateway-service</name>
 	<description>Secret Escapes Cloud Gateway Service</description>
 
@@ -186,6 +186,6 @@
 		<url>git@github.com:Jobsy/se-full-stack-takehome-challenge.git</url>
 		<connection>scm:git:git@github.com:Jobsy/se-full-stack-takehome-challenge.git</connection>
 		<developerConnection>scm:git:git@github.com:Jobsy/se-full-stack-takehome-challenge.git</developerConnection>
-	  <tag>HEAD</tag>
+	  <tag>cloud-gateway-service-0.0.4</tag>
   </scm>
 </project>
