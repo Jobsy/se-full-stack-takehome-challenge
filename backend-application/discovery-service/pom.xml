@@ -10,7 +10,7 @@
 
 	<groupId>com.secretescapes</groupId>
 	<artifactId>discovery-service</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>discovery-service</name>
 	<description>Secret Escapes Cloud Discovery Service</description>
 
@@ -130,6 +130,6 @@
 		<connection>scm:git:git@github.com:Jobsy/se-full-stack-takehome-challenge.git</connection>
 		<developerConnection>scm:git:git@github.com:Jobsy/se-full-stack-takehome-challenge.git</developerConnection>
 		<url>https://github.com/Jobsy/se-full-stack-takehome-challenge</url>
-	  <tag>discovery-service-0.0.1</tag>
+	  <tag>HEAD</tag>
   </scm>
 </project>
