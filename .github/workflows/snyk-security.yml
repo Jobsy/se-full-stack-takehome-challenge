@@ -141,10 +141,12 @@ jobs:
 
       - name: Set Git user
         run: |
-          git config user.email "ghactions@brianvermeer.nl"
-          git config user.name "GitHub Actions"
+          git config user.email "oluwajobabello@gmail.com"
+          git config user.name "Oluwajoba"
 
       - name: Change to project directory
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: cd backend-application/cloud-gateway-service && mvn clean install
 
       - name: Publish JAR
@@ -165,10 +167,12 @@ jobs:
 
       - name: Set Git user
         run: |
-          git config user.email "ghactions@brianvermeer.nl"
-          git config user.name "GitHub Actions"
+          git config user.email "oluwajobabello@gmail.com"
+          git config user.name "Oluwajoba"
 
       - name: Change to project directory
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: cd backend-application/cloud-gateway-service && mvn clean install
 
       - name: Publish JAR
