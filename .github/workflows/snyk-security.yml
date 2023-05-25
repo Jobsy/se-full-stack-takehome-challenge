@@ -204,8 +204,6 @@ jobs:
       - name: Publish JAR (Discovery Service)
 #         run: cd backend-application/discovery-service && mvn -B release:prepare release:perform -DskipTests        
         run: |
-          eval "$(ssh-agent -s)"
-          echo "$SSH_PRIVATE_KEY" | ssh-add -
           cd backend-application/discovery-service
           mvn -B release:prepare release:perform -DskipTests
         env:
