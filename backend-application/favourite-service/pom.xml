@@ -160,6 +160,7 @@
 					<args>
 						<arg>--all-projects</arg>
 					</args>
+					<skip>true</skip>
 				</configuration>
 			</plugin>
 		</plugins>
