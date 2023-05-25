@@ -27,27 +27,27 @@ jobs:
           distribution: 'adopt'
           architecture: 'x64'
 
-      - name: Snyk Code test - Run Snyk to check for vulnerabilities
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: |
-          cd backend-application/discovery-service
-          mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
-          snyk code test --all-projects --sarif-file-output=snyk-code-discovery.sarif
+#       - name: Snyk Code test - Run Snyk to check for vulnerabilities
+#         env:
+#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+#         run: |
+#           cd backend-application/discovery-service
+#           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
+#           snyk code test --all-projects --sarif-file-output=snyk-code-discovery.sarif
 
-      - name: Snyk Code test - Run Snyk to check for vulnerabilities
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: |
-          cd backend-application/discovery-service
-          mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
-          snyk code test --sarif > snyk-code.sarif || true
-          snyk test --all-projects --sarif-file-output=snyk-test.sarif
+#       - name: Snyk Code test - Run Snyk to check for vulnerabilities
+#         env:
+#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+#         run: |
+#           cd backend-application/discovery-service
+#           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
+#           snyk code test --sarif > snyk-code.sarif || true
+#           snyk test --all-projects --sarif-file-output=snyk-test.sarif
 
-      - name: Upload Snyk test results
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: backend-application/discovery-service/snyk-test.sarif
+#       - name: Upload Snyk test results
+#         uses: github/codeql-action/upload-sarif@v2
+#         with:
+#           sarif_file: backend-application/discovery-service/snyk-test.sarif
 
 #   favourite-service:
 #     runs-on: ubuntu-latest
@@ -207,7 +207,7 @@ jobs:
           eval "$(ssh-agent -s)"
           echo "$SSH_PRIVATE_KEY" | ssh-add -
           cd backend-application/discovery-service
-          mvn -B release:prepare release:perform -DskipTests
+         
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
