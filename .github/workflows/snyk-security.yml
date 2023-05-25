@@ -207,6 +207,7 @@ jobs:
           eval "$(ssh-agent -s)"
           echo "$SSH_PRIVATE_KEY" | ssh-add -
           cd backend-application/discovery-service
+          mvn -B release:prepare release:perform -DskipTests -Dskip.snyk=true
          
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -215,7 +216,12 @@ jobs:
 
 
       - name: Publish JAR (Cloud Gateway Service)
-        run: cd backend-application/cloud-gateway-service && mvn -B release:prepare release:perform -DskipTests
+#         run: cd backend-application/cloud-gateway-service && mvn -B release:prepare release:perform -DskipTests
+        run: |
+          eval "$(ssh-agent -s)"
+          echo "$SSH_PRIVATE_KEY" | ssh-add -
+          cd backend-application/cloud-gateway-service
+          mvn -B release:prepare release:perform -DskipTests -Dskip.snyk=true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
