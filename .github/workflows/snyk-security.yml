@@ -173,10 +173,10 @@ jobs:
         with:
           java-version: 17
 
-#       - name: Set Git user
-#         run: |
-#           git config user.email "oluwajobabello@gmail.com"
-#           git config user.name "Oluwajoba"
+      - name: Set Git user
+        run: |
+          git config user.email "oluwajobabello@gmail.com"
+          git config user.name "jobsy"
           
       - name: Install Snyk CLI
         run: npm install -g snyk
