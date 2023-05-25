@@ -159,6 +159,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: main
       
       - name: Delete .m2 directory
         run: rm -rf $HOME/.m2
