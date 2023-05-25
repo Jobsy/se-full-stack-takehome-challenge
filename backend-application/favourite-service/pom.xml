@@ -177,17 +177,6 @@
 		</repository>
 	</repositories>
 
-	<distributionManagement>
-		<repository>
-			<id>favourite-service</id>
-			<url>https://repo.maven.apache.org/maven2</url>
-		</repository>
-		<snapshotRepository>
-			<id>snapshot-favourite-service</id>
-			<url>https://repo.maven.apache.org/maven2</url>
-		</snapshotRepository>
-	</distributionManagement>
-
 	<scm>
 		<url>git@github.com:Jobsy/se-full-stack-takehome-challenge.git</url>
 		<connection>scm:git:git@github.com:Jobsy/se-full-stack-takehome-challenge.git</connection>
