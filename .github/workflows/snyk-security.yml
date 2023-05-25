@@ -203,26 +203,16 @@ jobs:
 
       - name: Publish JAR (Discovery Service)
 #         run: cd backend-application/discovery-service && mvn -B release:prepare release:perform -DskipTests        
-#         run: |
-#           eval "$(ssh-agent -s)"
-#           echo "$SSH_PRIVATE_KEY" | ssh-add -
-#           cd backend-application/discovery-service
-#           mvn -B release:prepare release:perform -DskipTests
-#         env:
-#           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           eval "$(ssh-agent -s)"
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" | ssh-add -
-          echo "${{ secrets.SSH_PASSPHRASE }}" | ssh-add -p
+          echo "$SSH_PRIVATE_KEY" | ssh-add -
           cd backend-application/discovery-service
           mvn -B release:prepare release:perform -DskipTests
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
       - name: Publish JAR (Cloud Gateway Service)
         run: cd backend-application/cloud-gateway-service && mvn -B release:prepare release:perform -DskipTests
