@@ -190,6 +190,16 @@ jobs:
 #           key: ${{ secrets.SSH_PRIVATE_KEY }}
 #           name: id_rsa
 #           known_hosts: ${{ secrets.KNOWN_HOSTS }}
+      - name: Debug SSH connection
+        run: |
+          echo "$SSH_PRIVATE_KEY" > key.pem
+          chmod 600 key.pem
+          ssh-keygen -y -f key.pem
+          cat key.pem
+          ssh -o StrictHostKeyChecking=accept-new -vT git@github.com
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
 
       - name: Publish JAR (Discovery Service)
         run: cd backend-application/discovery-service && mvn -B release:prepare release:perform -DskipTests
