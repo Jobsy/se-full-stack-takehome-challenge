@@ -33,7 +33,7 @@ jobs:
           distribution: 'adopt'
           architecture: 'x64'
 
-      - name: Snyk Code test - Run Snyk to check for vulnerabilities
+      - name: Snyk Code test - Run Snyk to check for vulnerabilities (focuses on identifying security issues within the source code of the projec)
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: |
@@ -41,7 +41,7 @@ jobs:
           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
           snyk code test --all-projects --sarif-file-output=snyk-code-${{ matrix.service }}.sarif
 
-      - name: Snyk Code test - Run Snyk to check for vulnerabilities
+      - name: Snyk Code test - Run Snyk to check for vulnerabilities (checks for vulnerabilities in project dependencies)
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: |
