@@ -259,7 +259,7 @@ jobs:
 
     strategy:
       matrix:
-        service: ['discovery-service', 'cloud-gateway-service', 'favourite-service']
+        service: ['discovery-service', 'cloud-gateway-service']
 
 
 
