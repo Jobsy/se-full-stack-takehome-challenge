@@ -172,20 +172,26 @@ jobs:
         run: |
           git config user.email "oluwajobabello@gmail.com"
           git config user.name "Oluwajoba"
+          
+      - name: Authenticate with Snyk
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
       - name: Publish JAR (Discovery Service)
         run: cd backend-application/discovery-service && mvn -B release:prepare release:perform -DskipTests
         env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish JAR (Favourite Service)
         run: cd backend-application/favourite-service && mvn -B release:prepare release:perform -DskipTests
         env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish JAR (Cloud Gateway Service)
         run: cd backend-application/cloud-gateway-service && mvn -B release:prepare release:perform -DskipTests
         env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
