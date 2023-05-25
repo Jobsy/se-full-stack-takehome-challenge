@@ -154,21 +154,77 @@ jobs:
 #         env:
 #           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
+#   release:
+# #     needs: [discovery-service, cloud-gateway-service]
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: read
+#       pull-requests: write
+#     steps:
+#       - uses: actions/checkout@v2
+#         with:
+#           ref: main
+          
+#       - name: Perform Git Pull
+#         run: git pull
+
+#       - name: Set up JDK 17
+#         uses: actions/setup-java@v1
+#         with:
+#           java-version: 17
+
+#       - name: Set Git user
+#         run: |
+#           git config --global user.email "oluwajobabello@gmail.com"
+#           git config --global user.name "Oluwajoba"
+  
+#       - name: Publish JAR (Discovery Service)
+# #         run: cd backend-application/discovery-service && mvn -B release:prepare release:perform -DskipTests        
+#         run: |
+#           eval "$(ssh-agent -s)"
+#           echo "$SSH_PRIVATE_KEY" | ssh-add -
+#           cd backend-application/discovery-service
+#           mvn -B release:prepare release:perform -DskipTests=true -Darguments="-Dmaven.deploy.skip=true" -Dmaven.test.skip.exec=true -DtagName=v1.0.0
+#         env:
+#           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+#       - name: Publish JAR (Cloud Gateway Service)
+#         run: |
+#           eval "$(ssh-agent -s)"
+#           echo "$SSH_PRIVATE_KEY" | ssh-add -
+#           cd backend-application/cloud-gateway-service
+#           mvn -B release:prepare release:perform -DskipTests=true -Darguments="-Dmaven.deploy.skip=true" -Dmaven.test.skip.exec=true -DtagName=v1.0.0
+#         env:
+#           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+#       - name: Publish JAR (Favourite Service)
+#         run: |
+#           eval "$(ssh-agent -s)"
+#           echo "$SSH_PRIVATE_KEY" | ssh-add -
+#           cd backend-application/favourite-service
+#           mvn -B release:prepare release:perform -DskipTests=true -Darguments="-Dmaven.deploy.skip=true" -Dmaven.test.skip.exec=true -DtagName=v1.0.0
+#         env:
+#           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   release:
-#     needs: [discovery-service, cloud-gateway-service]
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: write
+
+#    jobs:
+#       build-and-publish:
+#         name: Build and Publish JAR
     steps:
       - uses: actions/checkout@v2
         with:
           ref: main
-      
-#       - name: Delete .m2 directory
-#         run: rm -rf $HOME/.m2
-      - name: Perform Git Pull
-        run: git pull
 
       - name: Set up JDK 17
         uses: actions/setup-java@v1
@@ -178,70 +234,28 @@ jobs:
       - name: Set Git user
         run: |
           git config --global user.email "oluwajobabello@gmail.com"
-          git config --global user.name "jobsy"
-          
-#       - name: Install Snyk CLI
-#         run: npm install -g snyk
+          git config --global user.name "Oluwajoba"
 
-#       - name: Authenticate with Snyk
-#         run: /usr/local/bin/snyk auth ${{ secrets.SNYK_TOKEN }}
-        
-#       - name: Configure SSH key
-#         uses: shimataro/ssh-key-action@v2
-#         with:
-#           key: ${{ secrets.SSH_PRIVATE_KEY }}
-#           name: id_rsa
-#           known_hosts: ${{ secrets.KNOWN_HOSTS }}
-#       - name: Debug SSH connection
-#         run: |
-#           echo "$SSH_PRIVATE_KEY" > key.pem
-#           chmod 600 key.pem
-#           ssh-keygen -y -f key.pem
-#           cat key.pem
-#           ssh -o StrictHostKeyChecking=accept-new -vT git@github.com
-#         env:
-#           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-
-
-      - name: Publish JAR (Discovery Service)
-#         run: cd backend-application/discovery-service && mvn -B release:prepare release:perform -DskipTests        
+      - name: Checkout Project
         run: |
           eval "$(ssh-agent -s)"
           echo "$SSH_PRIVATE_KEY" | ssh-add -
-          cd backend-application/discovery-service
-          mvn -B release:prepare release:perform -DskipTests=true -Darguments="-Dmaven.deploy.skip=true" -Dmaven.test.skip.exec=true -DtagName=v1.0.0
-         
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
-      - name: Publish JAR (Cloud Gateway Service)
-#         run: cd backend-application/cloud-gateway-service && mvn -B release:prepare release:perform -DskipTests
-        run: |
-          eval "$(ssh-agent -s)"
-          echo "$SSH_PRIVATE_KEY" | ssh-add -
-          cd backend-application/cloud-gateway-service
-          mvn -B release:prepare release:perform -DskipTests=true -Darguments="-Dmaven.deploy.skip=true" -Dmaven.test.skip.exec=true -DtagName=v1.0.0
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-      - name: Publish JAR (Favourite Service)
-#         run: cd backend-application/favourite-service && mvn -B release:prepare release:perform -DskipTests
-        run: |
-          eval "$(ssh-agent -s)"
-          echo "$SSH_PRIVATE_KEY" | ssh-add -
-          cd backend-application/favourite-service
+          cd backend-application/${{ matrix.service }}
           mvn -B release:prepare release:perform -DskipTests=true -Darguments="-Dmaven.deploy.skip=true" -Dmaven.test.skip.exec=true -DtagName=v1.0.0
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Run Database Migration (Favourite Service)
+        run: |
+          # Database migration steps for the favourite-service
+          # Add the necessary commands to run the migration here
+        if: matrix.service != 'favourite-service'
 
+    strategy:
+      matrix:
+        service: ['discovery-service', 'cloud-gateway-service', 'favourite-service']
 
 
 
