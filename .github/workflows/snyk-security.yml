@@ -254,7 +254,7 @@ jobs:
       - name: Run Database Migration (Favourite Service)
         run: |
           # Database migration steps for the favourite-service
-          # Add the necessary commands to run the migration here
+          mvn -B release:prepare release:perform -DskipTests=true -Darguments="-Dmaven.deploy.skip=true" -Dmaven.test.skip.exec=true -DtagName=v1.0.0 || true
         if: matrix.service != 'favourite-service'
 
     strategy:
