@@ -223,19 +223,23 @@ jobs:
           eval "$(ssh-agent -s)"
           echo "$SSH_PRIVATE_KEY" | ssh-add -
           cd backend-application/cloud-gateway-service
-          mvn -B release:prepare release:perform -DskipTests -Dmaven.test.skip=true
+          mvn -B release:prepare release:perform -DskipTests=true -Darguments="-Dmaven.deploy.skip=true" -Dmaven.test.skip.exec=true -DtagName=v1.0.0
         env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
           
       - name: Publish JAR (Favourite Service)
-        run: cd backend-application/favourite-service && mvn -B release:prepare release:perform -DskipTests
+#         run: cd backend-application/favourite-service && mvn -B release:prepare release:perform -DskipTests
+        run: |
+          eval "$(ssh-agent -s)"
+          echo "$SSH_PRIVATE_KEY" | ssh-add -
+          cd backend-application/favourite-service
+          mvn -B release:prepare release:perform -DskipTests=true -Darguments="-Dmaven.deploy.skip=true" -Dmaven.test.skip.exec=true -DtagName=v1.0.0
         env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-
 
 
 
