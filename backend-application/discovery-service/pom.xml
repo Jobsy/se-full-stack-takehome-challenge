@@ -130,6 +130,6 @@
 		<connection>scm:git:git@github.com:Jobsy/se-full-stack-takehome-challenge.git</connection>
 		<developerConnection>scm:git:git@github.com:Jobsy/se-full-stack-takehome-challenge.git</developerConnection>
 		<url>https://github.com/Jobsy/se-full-stack-takehome-challenge</url>
-	  <tag>HEAD</tag>
-  </scm>
+    </scm>
+
 </project>
