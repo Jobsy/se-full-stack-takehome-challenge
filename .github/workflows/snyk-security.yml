@@ -205,10 +205,6 @@ jobs:
 #         run: cd backend-application/discovery-service && mvn -B release:prepare release:perform -DskipTests
         run: |
           eval "$(ssh-agent -s)"
-          echo "${{ secrets.SSH_PRIVATE_KEY }}"
-          echo "${{ secrets.SNYK_TOKEN }}"
-          echo "${{ secrets.GITHUB_TOKEN }}"
-          echo "${{ secrets.GH_TOKEN }}"
           ssh-add - <<< ${{ secrets.SSH_PRIVATE_KEY }}
           cd backend-application/discovery-service
           mvn -B release:prepare release:perform -DskipTests
