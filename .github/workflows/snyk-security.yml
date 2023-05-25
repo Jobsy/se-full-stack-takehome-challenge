@@ -164,6 +164,9 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: main
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          name: id_rsa
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
       
       - name: Delete .m2 directory
         run: rm -rf $HOME/.m2
