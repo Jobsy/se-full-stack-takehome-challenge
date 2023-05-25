@@ -175,8 +175,8 @@ jobs:
 
       - name: Set Git user
         run: |
-          git config user.email "oluwajobabello@gmail.com"
-          git config user.name "jobsy"
+          git config --global user.email "oluwajobabello@gmail.com"
+          git config --global user.name "jobsy"
           
       - name: Install Snyk CLI
         run: npm install -g snyk
