@@ -186,18 +186,21 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Publish JAR (Favourite Service)
-        run: cd backend-application/favourite-service && mvn -B release:prepare release:perform -DskipTests
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Publish JAR (Cloud Gateway Service)
         run: cd backend-application/cloud-gateway-service && mvn -B release:prepare release:perform -DskipTests
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          
+      - name: Publish JAR (Favourite Service)
+        run: cd backend-application/favourite-service && mvn -B release:prepare release:perform -DskipTests
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
 
 
