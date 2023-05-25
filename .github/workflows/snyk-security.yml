@@ -167,6 +167,8 @@ jobs:
       
 #       - name: Delete .m2 directory
 #         run: rm -rf $HOME/.m2
+      - name: Perform Git Pull
+        run: git pull
 
       - name: Set up JDK 17
         uses: actions/setup-java@v1
