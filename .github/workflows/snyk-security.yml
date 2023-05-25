@@ -3,8 +3,8 @@ name: Snyk Security
 on:
   push:
     branches: ["main"]
-#   pull_request:
-#     branches: ["main"]
+  pull_request:
+    branches: ["main"]
 
 permissions:
   contents: read
@@ -224,7 +224,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: main
+          ref: dev
      
       - name: Perform Git Pull
         run: git pull
