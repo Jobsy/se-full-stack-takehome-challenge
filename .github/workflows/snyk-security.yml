@@ -184,12 +184,12 @@ jobs:
       - name: Authenticate with Snyk
         run: /usr/local/bin/snyk auth ${{ secrets.SNYK_TOKEN }}
         
-      - name: Configure SSH key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          name: id_rsa
-          known_hosts: ${{ secrets.KNOWN_HOSTS }}
+#       - name: Configure SSH key
+#         uses: shimataro/ssh-key-action@v2
+#         with:
+#           key: ${{ secrets.SSH_PRIVATE_KEY }}
+#           name: id_rsa
+#           known_hosts: ${{ secrets.KNOWN_HOSTS }}
 
       - name: Publish JAR (Discovery Service)
         run: cd backend-application/discovery-service && mvn -B release:prepare release:perform -DskipTests
