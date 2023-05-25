@@ -145,7 +145,7 @@ jobs:
           git config user.name "GitHub Actions"
 
       - name: Change to project directory
-        run: cd backend-application/favourite-service
+        run: cd backend-application/favourite-service && mvn clean install
 
       - name: Publish JAR
         run: mvn -B release:prepare release:perform -DskipTests
