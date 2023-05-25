@@ -128,8 +128,8 @@ jobs:
           sarif_file: backend-application/cloud-gateway-service/snyk-test.sarif
 
 
-  release:
-    needs: [discovery-service, favourite-service, cloud-gateway-service]
+  release-cloud-gateway-service:
+    needs: [cloud-gateway-service]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -145,7 +145,31 @@ jobs:
           git config user.name "GitHub Actions"
 
       - name: Change to project directory
-        run: cd backend-application/favourite-service && mvn clean install
+        run: cd backend-application/cloud-gateway-service && mvn clean install
+
+      - name: Publish JAR
+        run: mvn -B release:prepare release:perform -DskipTests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+  release-discovery-service:
+    needs: [discovery-service]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+
+      - name: Set Git user
+        run: |
+          git config user.email "ghactions@brianvermeer.nl"
+          git config user.name "GitHub Actions"
+
+      - name: Change to project directory
+        run: cd backend-application/cloud-gateway-service && mvn clean install
 
       - name: Publish JAR
         run: mvn -B release:prepare release:perform -DskipTests
