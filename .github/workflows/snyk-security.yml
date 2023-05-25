@@ -10,291 +10,47 @@ permissions:
   contents: read
 
 jobs:
-#   discovery-service:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
-
-#       - name: Set up Snyk CLI to check for security issues
-#         uses: snyk/actions/setup@806182742461562b67788a64410098c9d9b96adb
-      
-#       - name: Set up JDK 17
-#         uses: actions/setup-java@v2
-#         with:
-#           java-version: '17'
-#           distribution: 'adopt'
-#           architecture: 'x64'
-
-#       - name: Snyk Code test - Run Snyk to check for vulnerabilities
-#         env:
-#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#         run: |
-#           cd backend-application/discovery-service
-#           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
-#           snyk code test --all-projects --sarif-file-output=snyk-code-discovery.sarif
-
-#       - name: Snyk Code test - Run Snyk to check for vulnerabilities
-#         env:
-#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#         run: |
-#           cd backend-application/discovery-service
-#           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
-#           snyk code test --sarif > snyk-code.sarif || true
-#           snyk test --all-projects --sarif-file-output=snyk-test.sarif
-
-#       - name: Upload Snyk test results
-#         uses: github/codeql-action/upload-sarif@v2
-#         with:
-#           sarif_file: backend-application/discovery-service/snyk-test.sarif
-
-#   favourite-service:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
-
-#       - name: Set up Snyk CLI to check for security issues
-#         uses: snyk/actions/setup@806182742461562b67788a64410098c9d9b96adb
-      
-#       - name: Set up JDK 17
-#         uses: actions/setup-java@v2
-#         with:
-#           java-version: '17'
-#           distribution: 'adopt'
-#           architecture: 'x64'
-
-#       - name: Snyk Code test - Run Snyk to check for vulnerabilities
-#         env:
-#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#         run: |
-#           cd backend-application/favourite-service
-#           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
-#           snyk code test --all-projects --sarif-file-output=snyk-code-favourite.sarif
-
-#       - name: Snyk Code test - Run Snyk to check for vulnerabilities
-#         env:
-#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#         run: |
-#           cd backend-application/favourite-service
-#           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
-#           snyk code test --sarif > snyk-code.sarif || true
-#           snyk test --all-projects --sarif-file-output=snyk-test.sarif
-
-#       - name: Upload Snyk test results
-#         uses: github/codeql-action/upload-sarif@v2
-#         with:
-#           sarif_file: backend-application/favourite-service/snyk-test.sarif
-
-#   cloud-gateway-service:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
-
-#       - name: Set up Snyk CLI to check for security issues
-#         uses: snyk/actions/setup@806182742461562b67788a64410098c9d9b96adb
-      
-#       - name: Set up JDK 17
-#         uses: actions/setup-java@v2
-#         with:
-#           java-version: '17'
-#           distribution: 'adopt'
-#           architecture: 'x64'
-
-#       - name: Snyk Code test - Run Snyk to check for vulnerabilities
-#         env:
-#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#         run: |
-#           cd backend-application/cloud-gateway-service
-#           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
-#           snyk code test --all-projects --sarif-file-output=snyk-code-cloud-gateway.sarif
-
-#       - name: Snyk Code test - Run Snyk to check for vulnerabilities
-#         env:
-#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#         run: |
-#           cd backend-application/cloud-gateway-service
-#           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
-#           snyk code test --sarif > snyk-code.sarif || true
-#           snyk test --all-projects --sarif-file-output=snyk-test.sarif
-
-#       - name: Upload Snyk test results
-#         uses: github/codeql-action/upload-sarif@v2
-#         with:
-#           sarif_file: backend-application/cloud-gateway-service/snyk-test.sarif
-
-
-#   release-cloud-gateway-service:
-#     needs: [cloud-gateway-service]
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v2
-
-#       - name: Set up JDK 17
-#         uses: actions/setup-java@v1
-#         with:
-#           java-version: 17
-
-#       - name: Set Git user
-#         run: |
-#           git config user.email "oluwajobabello@gmail.com"
-#           git config user.name "Oluwajoba"
-
-#       - name: Change to project directory
-#         env:
-#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#         run: cd backend-application/cloud-gateway-service && mvn clean install
-
-#       - name: Publish JAR
-#         run: mvn -B release:prepare release:perform -DskipTests
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-#   release:
-# #     needs: [discovery-service, cloud-gateway-service]
-#     runs-on: ubuntu-latest
-#     permissions:
-#       contents: read
-#       pull-requests: write
-#     steps:
-#       - uses: actions/checkout@v2
-#         with:
-#           ref: main
-          
-#       - name: Perform Git Pull
-#         run: git pull
-
-#       - name: Set up JDK 17
-#         uses: actions/setup-java@v1
-#         with:
-#           java-version: 17
-
-#       - name: Set Git user
-#         run: |
-#           git config --global user.email "oluwajobabello@gmail.com"
-#           git config --global user.name "Oluwajoba"
-  
-#       - name: Publish JAR (Discovery Service)
-# #         run: cd backend-application/discovery-service && mvn -B release:prepare release:perform -DskipTests        
-#         run: |
-#           eval "$(ssh-agent -s)"
-#           echo "$SSH_PRIVATE_KEY" | ssh-add -
-#           cd backend-application/discovery-service
-#           mvn -B release:prepare release:perform -DskipTests=true -Darguments="-Dmaven.deploy.skip=true" -Dmaven.test.skip.exec=true -DtagName=v1.0.0
-#         env:
-#           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-#       - name: Publish JAR (Cloud Gateway Service)
-#         run: |
-#           eval "$(ssh-agent -s)"
-#           echo "$SSH_PRIVATE_KEY" | ssh-add -
-#           cd backend-application/cloud-gateway-service
-#           mvn -B release:prepare release:perform -DskipTests=true -Darguments="-Dmaven.deploy.skip=true" -Dmaven.test.skip.exec=true -DtagName=v1.0.0
-#         env:
-#           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-#       - name: Publish JAR (Favourite Service)
-#         run: |
-#           eval "$(ssh-agent -s)"
-#           echo "$SSH_PRIVATE_KEY" | ssh-add -
-#           cd backend-application/favourite-service
-#           mvn -B release:prepare release:perform -DskipTests=true -Darguments="-Dmaven.deploy.skip=true" -Dmaven.test.skip.exec=true -DtagName=v1.0.0
-#         env:
-#           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  release:
+  snyk-security:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-
-#    jobs:
-#       build-and-publish:
-#         name: Build and Publish JAR
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: main
-     
-      - name: Perform Git Pull
-        run: git pull
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v1
-        with:
-          java-version: 17
-
-      - name: Set Git user
-        run: |
-          git config --global user.email "oluwajobabello@gmail.com"
-          git config --global user.name "Oluwajoba"
-
-      - name: Checkout Project
-        run: |
-          eval "$(ssh-agent -s)"
-          echo "$SSH_PRIVATE_KEY" | ssh-add -
-          cd backend-application/${{ matrix.service }}
-          git pull
-          mvn -B release:prepare release:perform -DskipTests=true -Darguments="-Dmaven.deploy.skip=true" -Dmaven.test.skip.exec=true -DtagName=v1.0.0
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Run Database Migration (Favourite Service)
-        run: |
-          # Database migration steps for the favourite-service
-          mvn -B release:prepare release:perform -DskipTests=true -Darguments="-Dmaven.deploy.skip=true" -Dmaven.test.skip.exec=true -DtagName=v1.0.0 || true
-        if: matrix.service != 'favourite-service'
-
     strategy:
       matrix:
-        service: ['discovery-service', 'cloud-gateway-service']
+        service:
+          - discovery-service
+          - favourite-service
+          - cloud-gateway-service
 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
+      - name: Set up Snyk CLI to check for security issues
+        uses: snyk/actions/setup@806182742461562b67788a64410098c9d9b96adb
+      
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+          architecture: 'x64'
 
+      - name: Snyk Code test - Run Snyk to check for vulnerabilities
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          cd backend-application/${{ matrix.service }}
+          mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
+          snyk code test --all-projects --sarif-file-output=snyk-code-${{ matrix.service }}.sarif
 
+      - name: Snyk Code test - Run Snyk to check for vulnerabilities
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          cd backend-application/${{ matrix.service }}
+          mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
+          snyk code test --sarif > snyk-code.sarif || true
+          snyk test --all-projects --sarif-file-output=snyk-test.sarif
 
-
-
-
-
-
-# Build the docker image for testing
-#       - name: Build docker image
-#         run: docker build -t oluwajoba/clinic-finder .
-
-#       - name: Security scan on docker image
-#         uses: snyk/actions/docker@master
-#         id: docker-image-scan
-#         continue-on-error: true
-#         env:
-#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#         with:
-#           image: oluwajoba/:latest --file=Dockerfile
-          
-      # Run Snyk Container (Container and SCA) analysis and uploads result to Snyk
-#       - name: Snyk Container monitor
-#         run: snyk container monitor oluwajoba/clinic-finder:latest --file=Dockerfile
-#         env:
-#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-
-#       - name: Upload sarif file to Github Code Scanning
-#         if: always()
-#         uses: github/codeql-action/upload-sarif@v2
-#         with:
-#           sarif_file: snyk.sarif
-
-#       - name: Publish docker image
-#         if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
-#         run: docker push --all-tags registry-host:3000/oluwajoba/
+      - name: Upload Snyk test results
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: backend-application/${{ matrix.service }}/snyk-test.sarif
