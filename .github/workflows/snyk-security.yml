@@ -173,8 +173,11 @@ jobs:
           git config user.email "oluwajobabello@gmail.com"
           git config user.name "Oluwajoba"
           
+      - name: Install Snyk CLI
+        run: npm install -g snyk
+
       - name: Authenticate with Snyk
-        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+        run: /usr/local/bin/snyk auth ${{ secrets.SNYK_API_TOKEN }}
 
       - name: Publish JAR (Discovery Service)
         run: cd backend-application/discovery-service && mvn -B release:prepare release:perform -DskipTests
