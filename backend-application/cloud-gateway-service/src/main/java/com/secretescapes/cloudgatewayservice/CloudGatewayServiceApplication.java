@@ -11,10 +11,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 public class CloudGatewayServiceApplication {
 
-	private CloudGatewayServiceApplication() { // Private constructor to prevent instantiation
-		throw new IllegalStateException("Utility class");
-	}
-
 	/**
 	 * Main method to start the Cloud Gateway Service application.
 	 *

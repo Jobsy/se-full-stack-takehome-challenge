@@ -14,10 +14,6 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 @EnableEurekaServer
 public class DiscoveryServiceApplication {
 
-	private DiscoveryServiceApplication() { // Private constructor to prevent instantiation
-		throw new IllegalStateException("Utility class");
-	}
-
 	/**
 	 * Main method to start the Discovery Service application.
 	 *
