@@ -64,6 +64,7 @@ jobs:
           IGNORE_GENERATED_FILES: true
           IGNORE_GITIGNORED_FILES: true
           JAVASCRIPT_DEFAULT_STYLE: standard/prettier
+          VALIDATE_GOOGLE_JAVA_FORMAT: false
           VALIDATE_MARKDOWN: false
           SUPPRESS_POSSUM: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
