@@ -8,7 +8,7 @@ package com.secretescapes.cloudgatewayservice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
+@SpringBootApplication
 public class CloudGatewayServiceApplication {
 
 	/**
@@ -19,5 +19,5 @@ public class CloudGatewayServiceApplication {
 	public static void main(final String[] args) {
 		SpringApplication.run(CloudGatewayServiceApplication.class, args);
 	}
-}
 
+}

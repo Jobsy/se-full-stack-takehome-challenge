@@ -1,0 +1,137 @@
+
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  clear-cache-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clear Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2-
+            
+  build-discovery-service:
+    needs: [clear-cache-and-build, start-zipkin]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clear Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2-
+            
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+          architecture: 'x64'
+          check-latest: false
+          server-id: 'github'
+          server-username: ${{ github.actor }}
+          server-password: ${{ secrets.GITHUB_TOKEN }}
+          overwrite-settings: true
+          job-status: 'success'
+
+      - name: Build Discovery Service
+        run: cd backend-application/discovery-service && mvn clean package
+
+  build-cloud-gateway-service:
+    needs: [start-zipkin, build-discovery-service]
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+          architecture: 'x64'
+          check-latest: false
+          server-id: 'github'
+          server-username: ${{ github.actor }}
+          server-password: ${{ secrets.GITHUB_TOKEN }}
+          overwrite-settings: true
+          job-status: 'success'
+
+      - name: Build Cloud Gateway Service
+        run: cd ./backend-application/cloud-gateway-service && mvn clean package
+
+  build-favourite-service:
+    needs: [start-zipkin, build-discovery-service, build-cloud-gateway-service]
+    runs-on: ubuntu-latest
+    services:
+      start-mysql-favourite-db:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: password
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
+        ports:
+          - 3306:3306
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+          architecture: 'x64'
+          check-latest: false
+          server-id: 'github'
+          server-username: ${{ github.actor }}
+          server-password: ${{ secrets.GITHUB_TOKEN }}
+          overwrite-settings: true
+          job-status: 'success'
+
+      - name: Update apt-get
+        run: sudo apt-get update
+
+      - name: Install MySQL client
+        run: sudo apt-get install -y mysql-client
+
+      - name: Verify MySQL connection from container 
+        run: mysql --host 127.0.0.1 -uroot -ppassword -e "SHOW DATABASES"
+
+      - name: Install Maven
+        run: sudo apt-get install -y maven
+
+      - name: Build Favourite Service
+        env:
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_PORT: 3306
+          MYSQL_USER: root
+          MYSQL_PASSWORD: password
+        run: |
+          sleep 30 # Delay for 30 seconds
+          cd backend-application/favourite-service && mvn clean package
+   
+  start-zipkin:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Start Zipkin
+        run: docker run -d --name zipkin -p 9412:9411 openzipkin/zipkin
+
