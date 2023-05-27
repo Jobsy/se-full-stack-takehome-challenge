@@ -26,6 +26,5 @@
  * This package is part of the overall backend application of the Secret
  * Escapes system and should not be used independently.
  */
-package com.secretescapes.cloudgatewayservice;
 
 
