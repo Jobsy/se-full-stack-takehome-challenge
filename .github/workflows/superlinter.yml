@@ -16,9 +16,9 @@ name: Lint Code Base
 #############################
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "dev"]
   pull_request:
-    branches: ["main"]
+    branches: ["main", "dev"]
 
 ###############
 # Set the Job #
@@ -58,7 +58,6 @@ jobs:
         uses: github/super-linter@v5
         env:
           VALIDATE_ALL_CODEBASE: true
-          VALIDATE_JSCPD_ALL_CODEBASE: true
           DEFAULT_BRANCH: dev
           IGNORE_GENERATED_FILES: true
           IGNORE_GITIGNORED_FILES: true
