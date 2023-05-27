@@ -40,7 +40,7 @@ jobs:
         run: |
           cd backend-application/${{ matrix.service }}
           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
-          snyk monitor --all-projects --sarif-file-output=snyk-code-${{ matrix.service }}.sarif
+          snyk monitor --all-projects
 
       - name: Snyk Code test - Run Snyk to check for vulnerabilities (focuses on identifying security issues within the source code of the projec)
         env:
