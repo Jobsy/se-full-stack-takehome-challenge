@@ -14,12 +14,14 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 @EnableEurekaServer
 public class DiscoveryServiceApplication {
 
-	/**
-	 * Main method to start the Discovery Service application.
-	 *
-	 * @param args The command-line arguments.
-	 */
-	public static void main(final String[] args) {
-		SpringApplication.run(DiscoveryServiceApplication.class, args);
-	}
+    /**
+     * Main method to start the Discovery Service application.
+     *
+     * @param args The command-line arguments.
+     */
+    public static void main(final String[] args) {
+
+        SpringApplication.run(DiscoveryServiceApplication.class, args);
+    }
+
 }
