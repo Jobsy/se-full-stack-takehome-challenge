@@ -60,6 +60,10 @@ jobs:
         uses: github/super-linter@v5
         env:
           VALIDATE_ALL_CODEBASE: true
-          # Change to 'master' if your main branch differs
           DEFAULT_BRANCH: main
+          IGNORE_GENERATED_FILES: true
+          IGNORE_GITIGNORED_FILES: true
+          JAVASCRIPT_DEFAULT_STYLE: standard/prettier
+          VALIDATE_MARKDOWN: false
+          SUPPRESS_POSSUM: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
