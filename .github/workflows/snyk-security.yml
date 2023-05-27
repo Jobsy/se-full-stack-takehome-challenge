@@ -33,14 +33,14 @@ jobs:
           distribution: 'adopt'
           architecture: 'x64'
           
-       # Run Snyk Open Source (SCA) analysis and uploads result to Snyk
-      - name: Snyk Open Source Monitor Before Test
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: |
-          cd backend-application/${{ matrix.service }}
-          mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
-          snyk monitor --all-projects
+#        # Run Snyk Open Source (SCA) analysis and uploads result to Snyk
+#       - name: Snyk Open Source Monitor Before Test
+#         env:
+#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+#         run: |
+#           cd backend-application/${{ matrix.service }}
+#           mvn dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml" > dependency-tree.dot
+#           snyk monitor --all-projects
 
       - name: Snyk Code test - Run Snyk to check for vulnerabilities (focuses on identifying security issues within the source code of the projec)
         env:
