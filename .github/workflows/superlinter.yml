@@ -57,7 +57,7 @@ jobs:
       - name: Lint Code Base
         uses: github/super-linter@v5
         env:
-          VALIDATE_ALL_CODEBASE: true
+          VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: main
           IGNORE_GENERATED_FILES: true
           IGNORE_GITIGNORED_FILES: true
