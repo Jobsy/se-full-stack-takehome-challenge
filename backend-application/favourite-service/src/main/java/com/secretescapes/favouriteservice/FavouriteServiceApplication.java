@@ -1,8 +1,3 @@
-/**
- * This package contains classes related to the Favourite Service.
- * The Favourite Service is responsible for managing the favourite functionality for sales.
- * It handles operations such as adding/removing sales to/from the favourites list, retrieving the user's favourites, etc.
- */
 package com.secretescapes.favouriteservice;
 
 import org.springframework.boot.SpringApplication;
