@@ -58,7 +58,7 @@ jobs:
         uses: github/super-linter@v5
         env:
           VALIDATE_ALL_CODEBASE: true
-          DEFAULT_BRANCH: dev
+          DEFAULT_BRANCH: main
           IGNORE_GENERATED_FILES: true
           IGNORE_GITIGNORED_FILES: true
           JAVASCRIPT_DEFAULT_STYLE: standard/prettier
