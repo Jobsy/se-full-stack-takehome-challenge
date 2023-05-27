@@ -44,6 +44,8 @@ jobs:
 #           snyk monitor --all-projects
 
       - name: Snyk Code test - Run Snyk to check for vulnerabilities (focuses on identifying security issues within the source code of the projec)
+        # continue-on-error until Resource is accessible by integration
+        continue-on-error: true 
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: |
@@ -52,6 +54,8 @@ jobs:
           snyk code test --all-projects --sarif-file-output=snyk-code-${{ matrix.service }}.sarif
 
       - name: Snyk Code test - Run Snyk to check for vulnerabilities (checks for vulnerabilities in project dependencies)
+        # continue-on-error until Resource is accessible by integration
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: |
