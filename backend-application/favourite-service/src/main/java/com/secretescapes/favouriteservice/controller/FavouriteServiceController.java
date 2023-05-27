@@ -1,4 +1,3 @@
-
 package com.secretescapes.favouriteservice.controller;
 
 import java.util.Map;
