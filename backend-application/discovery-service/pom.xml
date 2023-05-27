@@ -10,7 +10,7 @@
 
 	<groupId>com.secretescapes</groupId>
 	<artifactId>discovery-service</artifactId>
-	<version>0.0.22-SNAPSHOT</version>
+	<version>0.0.23-SNAPSHOT</version>
 	<name>discovery-service</name>
 	<description>Secret Escapes Cloud Discovery Service</description>
 
