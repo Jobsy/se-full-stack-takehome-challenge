@@ -67,4 +67,7 @@ jobs:
           VALIDATE_GOOGLE_JAVA_FORMAT: false
           VALIDATE_MARKDOWN: false
           SUPPRESS_POSSUM: true
+          VALIDATE_POWERSHELL: false
+          VALIDATE_SHELL_SHFMT: false
+          VALIDATE_DOCKERFILE_HADOLINT: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
