@@ -1,7 +1,6 @@
 import * as React from "react";
 import { ISale } from "../../utils/Sale.interface";
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import {
   DestenationText,
@@ -10,6 +9,7 @@ import {
   TitleText,
 } from "./SaleCard.styles";
 import { FavouriteContext } from "../../context/FavouriteContext";
+import { FavouriteCardContainer, StyledFontAwesomeIcon } from "../Favourite/FavouriteCard.styles";
 
 interface ISaleCardProps {
   sale: Partial<ISale>;
@@ -24,23 +24,24 @@ export const SaleCard: React.FC<ISaleCardProps> = ({ sale }) => {
 
   return (
     <div>
-      {userId && <FontAwesomeIcon
-        icon={faHeart}
-        color={isFavourite ? '#BB0039' : '#7E7E7E'}
-        onClick={() => toggleFavourite(sale.id || "")}
-      />}
-      
-      <SaleCardLink to={`/sale/${sale.id}`}>
-        <img
-          width="100%"
-          src={sale.photos?.[0].url}
-          alt={sale?.editorial?.title}
-        />
-        <SaleCardContent>
-          <DestenationText>{sale?.editorial?.destinationName}</DestenationText>
-          <TitleText>{sale?.editorial?.title}</TitleText>
-        </SaleCardContent>
-      </SaleCardLink>
+      <FavouriteCardContainer>
+        {userId && <StyledFontAwesomeIcon
+          icon={faHeart}
+          color={isFavourite ? '#BB0039' : '#7E7E7E'}
+          onClick={() => toggleFavourite(sale.id || "")}
+        />}
+        <SaleCardLink to={`/sale/${sale.id}`}>
+          <img
+            width="100%"
+            src={sale.photos?.[0].url}
+            alt={sale?.editorial?.title}
+          />
+          <SaleCardContent>
+            <DestenationText>{sale?.editorial?.destinationName}</DestenationText>
+            <TitleText>{sale?.editorial?.title}</TitleText>
+          </SaleCardContent>
+        </SaleCardLink>
+      </FavouriteCardContainer>
     </div>
   );
 };
