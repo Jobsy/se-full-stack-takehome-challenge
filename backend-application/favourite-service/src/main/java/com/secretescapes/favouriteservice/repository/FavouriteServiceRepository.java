@@ -1,12 +1,11 @@
 package com.secretescapes.favouriteservice.repository;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.secretescapes.favouriteservice.model.Favourite;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.secretescapes.favouriteservice.model.Favourite;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface FavouriteServiceRepository extends JpaRepository<Favourite, Integer> {
