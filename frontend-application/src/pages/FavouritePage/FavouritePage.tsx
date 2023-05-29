@@ -4,6 +4,7 @@ import { FavouriteCard } from "../../components";
 import { ISale } from "../../utils/Sale.interface";
 import { Favourite } from '../../utils/Favourite.interface';
 import { useFetchFavouriteSale } from '../../utils/UseFetchFavouriteSale';
+import { SearchResultsContainer } from "../SearchResults/SearchResults.styles";
 
 interface Props {
   userId: string;
@@ -29,13 +30,13 @@ export const FavouritePage: React.FC<Props> = ({ userId }) => {
   const favourite = filterSalesByFavourites(sales, storedFavourites)
   
   return (
-    <>
+    <SearchResultsContainer>
       {loading && <div>Loading...</div>}
       {error && <div>Error fetching sales...</div>}
       {favourite?.length === 0 && <div>No favourites added yet.</div>}
       {userId && favourite?.map((sale: Partial<Favourite>, idx: React.Key) => (
         <FavouriteCard key={idx} favourite={sale} />
       ))}
-    </>
+    </SearchResultsContainer>
   );
 };
