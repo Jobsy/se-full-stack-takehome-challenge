@@ -12,6 +12,7 @@ public class CloudGatewayServiceApplication {
      * @param args The command-line arguments.
      */
     public static void main(final String[] args) {
+
         SpringApplication.run(CloudGatewayServiceApplication.class, args);
     }
 
