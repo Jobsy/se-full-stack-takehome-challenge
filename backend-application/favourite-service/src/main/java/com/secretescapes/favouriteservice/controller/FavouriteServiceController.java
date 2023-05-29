@@ -40,7 +40,7 @@ public class FavouriteServiceController {
             Optional<Favourite> favourites = favouriteService.getFavoritesByUserIdAndSaleId(userId, saleId);
             return ResponseEntity.ok(favourites);
         } catch (Exception e) {
-            String errorMessage = "Failed to retrieve favorites for user and sale " + userId + " " + e;
+            String errorMessage = "Failed to retrieve favourites for user and sale " + userId + " " + e;
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
         }
     }
@@ -57,7 +57,7 @@ public class FavouriteServiceController {
             List<Favourite> favourites = favouriteService.getAllFavoritesByUserId(userId);
             return ResponseEntity.ok(favourites);
         } catch (Exception e) {
-            String errorMessage = "Failed to retrieve favorites for user " + userId + " " + e;
+            String errorMessage = "Failed to retrieve favourites for user " + userId + " " + e;
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
         }
     }
@@ -77,7 +77,7 @@ public class FavouriteServiceController {
             ResponseEntity<String> favourites = favouriteService.addFavorite(userId, saleId);
             return ResponseEntity.ok(favourites);
         } catch (Exception e) {
-            String errorMessage = "Failed to retrieve favorites for user " + userId + " " + e;
+            String errorMessage = "Failed to retrieve favourites for user " + userId + " " + e;
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
         }
     }
@@ -97,3 +97,4 @@ public class FavouriteServiceController {
     }
 
 }
+
