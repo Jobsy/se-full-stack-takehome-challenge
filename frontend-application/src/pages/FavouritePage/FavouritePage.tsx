@@ -11,6 +11,7 @@ interface Props {
 }
 
 export const FavouritePage: React.FC<Props> = ({ userId }) => {
+  // eslint-disable-next-line 
   const [favourites, setFavourites] = React.useState<Partial<Favourite>[]>([]);
   const { sales, loading, error  } = useFetchFavouriteSale({ saleIds: favourites.map(favourite => favourite.saleId) });
   const storedFavourites = localStorage.getItem(`favourites_${userId}`);
