@@ -1,5 +1,7 @@
-import { DocumentNode, gql, useQuery } from "@apollo/client";
+
 import { useState } from "react";
+import { DocumentNode, gql, useQuery } from "@apollo/client";
+
 import { IBasicSale } from "./Sale.interface";
 
 export interface ISearchResponse {
