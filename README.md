@@ -54,6 +54,7 @@ Please add any comments on choices you have made, any missed functionally or kno
     - [Technical Details](#technical-details)
     - [Additional Notes](#additional-notes)
   - [Stretch Goals Checklist](#stretch-goals-checklist)
+- [Script](#script)
 - [Microservices: Cloud Gateway, Discovery Service, and Favourite](#microservices-cloud-gateway-discovery-service-and-favourite)
   - [Overview](#overview)
   - [Cloud Gateway](#cloud-gateway)
@@ -231,6 +232,7 @@ Below are checked boxes to mark the completion of each task for stretch goals im
 - [x] Add additional services: Discovery/Eureka service, Cloud Gateway service, and Zipkin.
 
 # Script
+TODO: add ports and package.json scripts for dynamically starting the app.
 
 # Microservices: Cloud Gateway, Discovery Service, and Favourite
 
