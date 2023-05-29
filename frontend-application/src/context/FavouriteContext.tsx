@@ -26,7 +26,7 @@ export const FavouriteProvider: React.FC<FavouriteProviderProps> = ({ children }
   const userId = localStorage.getItem("SE_USER_ID");
 
   const getSaleIdsFromFavourites = (favouritesPromiseResult: any[]) => {
-    return favouritesPromiseResult.map((favourite: { saleId: any; }) => favourite.saleId);
+    return favouritesPromiseResult.map((favourite: { saleId: string; }) => favourite.saleId);
   };
       
   const getSaleIds = async (userId: string | null) => {
@@ -47,10 +47,10 @@ export const FavouriteProvider: React.FC<FavouriteProviderProps> = ({ children }
     else if (favouriteSaleIds) {
         getSaleIds(userId);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
   
   useEffect(() => {
-    const fav = localStorage.getItem(`favourites_${userId}`);
     if (favourites.length > 0 && userId) {
       localStorage.setItem(`favourites_${userId}`, JSON.stringify(favourites));
       setFavourites(favourites)

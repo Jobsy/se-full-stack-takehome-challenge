@@ -15,10 +15,10 @@ export const FavouritePage: React.FC<Props> = ({ userId }) => {
   const { sales, loading, error  } = useFetchFavouriteSale({ saleIds: favourites.map(favourite => favourite.saleId) });
   const storedFavourites = localStorage.getItem(`favourites_${userId}`);
 
-  function filterSalesByFavourites(sales: ISale[] | Partial<Favourite> | any, favouriteId: string | any[] | null) {
+  function filterSalesByFavourites(sales: ISale[], favouriteId: string | string[] | null) {
     try {
       // Filter sales by whether their id is in the favouriteId array
-      const filteredSales = sales?.filter((sale: { id: any; }) => favouriteId?.includes(sale.id));
+      const filteredSales = sales?.filter((sale: { id: string }) => favouriteId?.includes(sale.id));
       return filteredSales;
     } catch (error) {
       // Handle any errors that occur during filtering
