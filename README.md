@@ -1,3 +1,9 @@
+[![CI/CD Pipeline](https://github.com/Jobsy/se-full-stack-takehome-challenge/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/Jobsy/se-full-stack-takehome-challenge/actions/workflows/ci-cd.yml)
+
+[![Snyk Security](https://github.com/Jobsy/se-full-stack-takehome-challenge/actions/workflows/snyk-security.yml/badge.svg)](https://github.com/Jobsy/se-full-stack-takehome-challenge/actions/workflows/snyk-security.yml)
+
+[![Lint Code Base](https://github.com/Jobsy/se-full-stack-takehome-challenge/actions/workflows/superlinter.yml/badge.svg)](https://github.com/Jobsy/se-full-stack-takehome-challenge/actions/workflows/superlinter.yml)
+
 # Secret Escapes Full stack engineer take home task
 
 This project is a starting point for the fullstack engineer technical interview take home task.
