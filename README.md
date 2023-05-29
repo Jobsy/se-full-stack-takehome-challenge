@@ -239,6 +239,7 @@ Below are checked boxes to mark the completion of each task for stretch goals im
 
 # Script
 TODO: add ports and package.json scripts for dynamically starting the app.
+To use the app for now, you have to change the post to 8080 when running locally and to 8181 when running with docker compose.
 
 # Microservices: Cloud Gateway, Discovery Service, and Favourite
 
@@ -324,7 +325,6 @@ mvn spring-boot:run
 ```
 6. The Favourite service will be available at `http://localhost:<port>/<microservice name>`.
 7. Repeat steps 3-5 for each microservice, starting them in the required order based on their dependencies.
-
 
 ## Docker Startup
 To start the microservices using Docker, follow these steps:
